@@ -1,6 +1,9 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Livewire\Auth\SigninLivewire;
+use App\Http\Livewire\Student\StudentLivewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,18 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', function () { return redirect()->route('signin'); })->name('index');
+
+Route::get('/signout', function () { Auth::logout(); return redirect()->route('index'); })->name('signout');
+
+Route::middleware(['guest'])->group(function () {
+    
+    Route::get('/signin', SigninLivewire::class)->name('signin');
+    
+});
+
+Route::middleware(['user'])->group(function () {
+    
+    Route::get('/student', StudentLivewire::class)->name('student');
+
 });
