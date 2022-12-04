@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Http\Livewire\College;
+namespace App\Http\Livewire\Program;
 
-use App\Models\College;
+use App\Models\Program;
 use Livewire\Component;
 use App\Traits\AlertTrait;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
-class CollegeLivewire extends Component
+class ProgramLivewire extends Component
 {
     use AuthorizesRequests;
     use AlertTrait;
@@ -20,15 +20,15 @@ class CollegeLivewire extends Component
 
     public function render()
     {
-        return view('livewire.college.college-livewire', [
-            'colleges' => $this->getColleges(),
+        return view('livewire.program.program-livewire', [
+            'programs' => $this->getPrograms(),
         ])->extends('layouts.app', [
-            'active_nav' => 'college',
-            'title' => 'College',
+            'active_nav' => 'program',
+            'title' => 'Program',
             'breadcrumbs' => [
                 [
-                    'link' => route('college'),
-                    'label' => 'College',
+                    'link' => route('program'),
+                    'label' => 'Program',
                 ], [
                     'label' => 'List',
                     'active' => true,
@@ -37,17 +37,18 @@ class CollegeLivewire extends Component
         ]);
     }
 
-    protected function getColleges()
+    protected function getPrograms()
     {
-        return College::query()
+        return Program::query()
+            ->with('college')
             ->search($this->search)
             ->paginate($this->showRow);
     }
 
     public function delete($id)
     {
-        $college = College::find($id);
-        if (Gate::allows('delete', $college) && $college->delete()) {
+        $program = Program::find($id);
+        if (Gate::allows('delete', $program) && $program->delete()) {
             $this->alert_success('Record Deleted!');
         }
     }
