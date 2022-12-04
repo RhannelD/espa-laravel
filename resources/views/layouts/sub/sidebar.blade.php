@@ -1,16 +1,16 @@
 <aside id="sidebar" class="sidebar">
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('student') }}">
+            <a class="nav-link collapsed" href="">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="{{ route('signin') }}">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
+            <a class="nav-link collapsed" href="{{ route('student') }}">
+                <i class="bi bi-person-badge"></i>
+                <span>Student</span>
             </a>
         </li>
 

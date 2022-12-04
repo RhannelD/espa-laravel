@@ -40,7 +40,6 @@
 </head>
 
 <body>
-
     <!-- ======= Header ======= -->
     @include('layouts.sub.header')
     <!-- End Header -->
@@ -51,16 +50,7 @@
 
     <main id="main" class="main">
         <!-- Start Page Title -->
-        <div class="pagetitle">
-            <h1>Blank Page</h1>
-            <nav>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                    <li class="breadcrumb-item">Pages</li>
-                    <li class="breadcrumb-item active">Blank</li>
-                </ol>
-            </nav>
-        </div>
+        @include('layouts.sub.pagetitle')
         <!-- End Page Title -->
 
         <section class="section">
@@ -81,10 +71,6 @@
     <script src="{{ asset('niceadmin/js/main.js') }}"></script>
 
     <script>
-        function alert_toast(message) {
-            M.toast({html: message});
-        }
-
         window.addEventListener('swal:modal', event => { 
             swal({
                 title: event.detail.message,
@@ -106,30 +92,33 @@
 		});
     </script>
     @if ( session()->has('alert_success') )
-        <script>
+        <script id="alert_success">
             swal({
                 title: "{{ session()->get('alert_success')['messsage'] }}",
                 text:  "{{ session()->get('alert_success')['text'] }}",
                 icon: 'success',
             });
+            $("#alert_success").remove();
         </script>
     @endif
     @if ( session()->has('alert_info') )
-        <script>
+        <script id="alert_info">
             swal({
                 title: "{{ session()->get('alert_info')['messsage'] }}",
                 text:  "{{ session()->get('alert_info')['text'] }}",
                 icon: 'info',
             });
+            $("#alert_info").remove();
         </script>
     @endif
     @if ( session()->has('alert_error') )
-        <script>
+        <script id="alert_error">
             swal({
                 title: "{{ session()->get('alert_error')['messsage'] }}",
                 text:  "{{ session()->get('alert_error')['text'] }}",
                 icon: 'error',
             });
+            $("#alert_error").remove();
         </script>
     @endif
 </body>

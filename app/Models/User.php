@@ -18,9 +18,18 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'usertype',
+        'sr_code',
+        'firstname',
+        'lastname',
+        'sex',
         'email',
         'password',
+    ];
+
+    protected $attributes = [
+        'usertype' => 'student',
+        'sex' => 'male',
     ];
 
     /**
@@ -41,4 +50,55 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    # attributes -------------------------------------------------------
+
+    public function getFlnameAttribute()
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
+
+    public function getIsAdminAttribute()
+    {
+        return $this->usertype === 'admin';
+    }
+
+    public function getIsStudentAttribute()
+    {
+        return $this->usertype === 'student';
+    }
+
+    # relationships ----------------------------------------------------
+
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'user_id', 'id');
+    }
+
+    # scopes -----------------------------------------------------------
+
+    public function scopeSearch($query, $search)
+    {
+        $query->where(function ($query) use ($search){
+            $query->where(\DB::raw('CONCAT(firstname, " ", lastname)'), 'like', "%{$search}%")
+            ->orWhere('email', 'like', "%{$search}%")
+            ->orWhereHas('student', function($query) use ($search) {
+                $query->where('sr_code', 'like', "%{$search}%");
+            });
+        });
+    }
+
+    public function scopeIsAdmin($query)
+    {
+        $query->where('usertype', 'admin');
+    }
+
+    public function scopeIsStudent($query)
+    {
+        $query->where('usertype', 'student');
+    }
+
+    # custom functions --------------------------------------------------
+
+
 }
