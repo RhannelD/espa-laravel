@@ -51,6 +51,9 @@
                                 <a href="{{ route('student.form', [$student->id]) }}" class="btn btn-sm my-0 btn-primary">
                                     <i class="bi bi-pen-fill"></i>
                                 </a>
+                                <button wire:click="$emitTo('student.student-password-livewire', 'edit', {{ $student->id }})" type="button" class="btn btn-sm my-0 btn-dark">
+                                    <i class="bi bi-key-fill"></i>
+                                </button>
                                 <button onclick="delete_record({{ $student->id }})" type="button" class="btn btn-sm my-0 btn-danger">
                                     <i class="bi bi-trash-fill"></i>
                                 </button>
@@ -65,6 +68,8 @@
             </div>
         </div>
     </div>
+
+    @livewire('student.student-password-livewire', key('student-password-livewire'))
 
     <script>
         function delete_record(id) {

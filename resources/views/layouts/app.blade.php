@@ -31,12 +31,13 @@
     @livewireStyles
     @livewireScripts
 
-    <script defer src="{{ asset('js/cookies.js') }}"></script>
-    <script defer src="{{ asset('js/app.js') }}"></script>
-    <script defer src="{{ asset('niceadmin/vendor/apexcharts/apexcharts.min.js') }}"></script>
-    <script defer src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script defer src="{{ asset('js/sweetalert.min.js') }}"></script>
-    <script defer src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/cookies.js') }}"></script>
+    <script src="{{ asset('niceadmin/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/app_main.js') }}"></script>
     <script defer src="{{ asset('js/alpinejs.min.js') }}"></script>
 </head>
 
@@ -70,31 +71,8 @@
         <i class="bi bi-arrow-up-short"></i>
     </a>
 
-    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
-        data-turbolinks-eval="false"></script>
-    {{-- <script src="{{ asset('niceadmin/js/main.js') }}"></script> --}}
-
-    <script>
-        window.addEventListener('swal:modal', event => { 
-            swal({
-                title: event.detail.message,
-                text: event.detail.text,
-                icon: event.detail.type,
-            });
-        });
-
-        window.addEventListener('redirect-blank', event => {
-            window.open(event.detail.url, '_blank'); 
-		});
-
-        window.addEventListener('modal-toggle', event => {
-			$("#"+event.detail.id).modal(event.detail.action);
-		});
-
-        window.addEventListener('scroll-to-top', event => {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-		});
-    </script>
+    <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js" data-turbolinks-eval="false"></script>
+    
     @if ( session()->has('alert_success') )
         <script id="alert_success">
             swal({
