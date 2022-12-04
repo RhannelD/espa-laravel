@@ -31,6 +31,7 @@
     @livewireStyles
     @livewireScripts
 
+    <script defer src="{{ asset('js/cookies.js') }}"></script>
     <script defer src="{{ asset('js/app.js') }}"></script>
     <script defer src="{{ asset('niceadmin/vendor/apexcharts/apexcharts.min.js') }}"></script>
     <script defer src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
@@ -39,7 +40,10 @@
     <script defer src="{{ asset('js/alpinejs.min.js') }}"></script>
 </head>
 
-<body>
+<body x-data="{ sidebar_toggle: true }"
+    x-init="sidebar_toggle = docCookies.hasItem('sidebar_toggle') ? (docCookies.getItem('sidebar_toggle') == 'true') : true;"
+    x-bind:class="{ 'toggle-sidebar': !sidebar_toggle }">
+    
     <!-- ======= Header ======= -->
     @include('layouts.sub.header')
     <!-- End Header -->
@@ -68,7 +72,7 @@
 
     <script src="https://cdn.jsdelivr.net/gh/livewire/turbolinks@v0.1.x/dist/livewire-turbolinks.js"
         data-turbolinks-eval="false"></script>
-    <script src="{{ asset('niceadmin/js/main.js') }}"></script>
+    {{-- <script src="{{ asset('niceadmin/js/main.js') }}"></script> --}}
 
     <script>
         window.addEventListener('swal:modal', event => { 
