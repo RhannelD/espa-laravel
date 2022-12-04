@@ -40,6 +40,7 @@ class StudentFormLivewire extends Component
     public function render()
     {
         return view('livewire.student.student-form-livewire')->extends('layouts.app', [
+            'active_nav' => 'student',
             'title' => (is_null($this->user_id)? 'Create': 'Update').' Student',
             'breadcrumbs' => [
                 [
