@@ -8,9 +8,11 @@ use App\Rules\SrCodeRule;
 use App\Traits\AlertTrait;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class StudentFormLivewire extends Component
 {
+    use AuthorizesRequests;
     use AlertTrait;
 
     public $user_id;
@@ -33,7 +35,10 @@ class StudentFormLivewire extends Component
     {
         $this->user_id = $user_id;
         $user = User::find($user_id);
+
         abort_if(isset($user_id) && is_null($user), 404);
+        $this->authorize(is_null($user_id)? 'create': 'update', is_null($user_id)? User::class: $user);
+
         $this->user = $user? $user->replicate(): new User;
     }
 

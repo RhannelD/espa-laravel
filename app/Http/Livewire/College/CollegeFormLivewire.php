@@ -6,9 +6,11 @@ use App\Models\College;
 use Livewire\Component;
 use App\Traits\AlertTrait;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CollegeFormLivewire extends Component
 {
+    use AuthorizesRequests;
     use AlertTrait;
 
     public $college_id;
@@ -26,7 +28,10 @@ class CollegeFormLivewire extends Component
     {
         $this->college_id = $college_id;
         $college = College::find($college_id);
+        
         abort_if(isset($college_id) && is_null($college), 404);
+        $this->authorize(is_null($college_id)? 'create': 'update', is_null($college_id)? College::class: $college);
+
         $this->college = $college? $college->replicate(): new College;
     }
 

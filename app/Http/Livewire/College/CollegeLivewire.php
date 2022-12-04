@@ -18,6 +18,24 @@ class CollegeLivewire extends Component
 
     public $search, $showRow = 10;
 
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'showRow' => ['except' => 10, 'as' => 'row'],
+        'page' => ['except' => 1],
+    ];
+
+    public function mount()
+    {
+        $this->authorize('viewAny', College::class);
+    }
+
+    public function hydrate()
+    {
+        if (Gate::denies('viewAny', College::class)) {
+            return redirect(url()->previous());
+        }
+    }
+
     public function render()
     {
         return view('livewire.college.college-livewire', [

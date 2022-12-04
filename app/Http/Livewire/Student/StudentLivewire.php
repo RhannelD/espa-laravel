@@ -18,6 +18,24 @@ class StudentLivewire extends Component
 
     public $search, $showRow = 10;
 
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'showRow' => ['except' => 10, 'as' => 'row'],
+        'page' => ['except' => 1],
+    ];
+
+    public function mount()
+    {
+        $this->authorize('viewAny', User::class);
+    }
+
+    public function hydrate()
+    {
+        if (Gate::denies('viewAny', User::class)) {
+            return redirect(url()->previous());
+        }
+    }
+
     public function render()
     {
         return view('livewire.student.student-livewire', [

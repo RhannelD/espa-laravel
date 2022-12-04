@@ -7,9 +7,11 @@ use App\Models\Program;
 use Livewire\Component;
 use App\Traits\AlertTrait;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class ProgramFormLivewire extends Component
 {
+    use AuthorizesRequests;
     use AlertTrait;
 
     public $program_id;
@@ -28,7 +30,10 @@ class ProgramFormLivewire extends Component
     {
         $this->program_id = $program_id;
         $program = Program::find($program_id);
+
         abort_if(isset($program_id) && is_null($program), 404);
+        $this->authorize(is_null($program_id)? 'create': 'update', is_null($program_id)? Program::class: $program);
+
         $this->program = $program? $program->replicate(): new Program;
     }
 

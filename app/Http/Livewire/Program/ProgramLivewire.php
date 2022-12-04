@@ -18,6 +18,24 @@ class ProgramLivewire extends Component
 
     public $search, $showRow = 10;
 
+    protected $queryString = [
+        'search' => ['except' => ''],
+        'showRow' => ['except' => 10, 'as' => 'row'],
+        'page' => ['except' => 1],
+    ];
+
+    public function mount()
+    {
+        $this->authorize('viewAny', Program::class);
+    }
+
+    public function hydrate()
+    {
+        if (Gate::denies('viewAny', Program::class)) {
+            return redirect(url()->previous());
+        }
+    }
+
     public function render()
     {
         return view('livewire.program.program-livewire', [
