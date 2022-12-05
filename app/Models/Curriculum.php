@@ -5,36 +5,36 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class College extends Model
+class Curriculum extends Model
 {
     use HasFactory;
 
     const SEARCHFILTERS = [
-        'college', 
-        'abbreviation',
+        'track', 
+        'academic_year', 
     ];
 
     protected $fillable = [
-        'college',
-        'abbreviation',
+        'program_id',
+        'track',
+        'academic_year',
     ];
 
     protected $attributes = [
-        'college' => '',
-        'abbreviation' => '',
+        'track' => '',
     ];
 
     // protected $casts = [
-    //     'date_at'  => 'date:Y-m-d',
+    //     'academic_year' => 'date:Y',
     // ];
 
     # attributes -------------------------------------------------------
 
     # relationships ----------------------------------------------------
 
-    public function programs()
+    public function program()
     {
-        return $this->hasMany(Program::class, 'college_id', 'id');
+        return $this->belongsTo(Program::class, 'program_id', 'id');
     }
 
     # scopes -----------------------------------------------------------

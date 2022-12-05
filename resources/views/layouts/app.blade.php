@@ -38,6 +38,7 @@
     <script src="{{ asset('js/sweetalert.min.js') }}"></script>
     <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
     <script src="{{ asset('js/app_main.js') }}"></script>
+    <script defer src="{{ asset('js/alpinemaskjs.min.js') }}"></script>
     <script defer src="{{ asset('js/alpinejs.min.js') }}"></script>
 </head>
 

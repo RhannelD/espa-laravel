@@ -1,16 +1,18 @@
 <?php
 
+use App\Http\Livewire\Auth\SigninLivewire;
+use App\Http\Livewire\College\CollegeFormLivewire;
+use App\Http\Livewire\College\CollegeLivewire;
+use App\Http\Livewire\Course\CourseFormLivewire;
+use App\Http\Livewire\Course\CourseLivewire;
+use App\Http\Livewire\Curriculum\CurriculumFormLivewire;
+use App\Http\Livewire\Curriculum\CurriculumLivewire;
+use App\Http\Livewire\Program\ProgramFormLivewire;
+use App\Http\Livewire\Program\ProgramLivewire;
+use App\Http\Livewire\Student\StudentFormLivewire;
+use App\Http\Livewire\Student\StudentLivewire;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use App\Http\Livewire\Auth\SigninLivewire;
-use App\Http\Livewire\Course\CourseLivewire;
-use App\Http\Livewire\College\CollegeLivewire;
-use App\Http\Livewire\Program\ProgramLivewire;
-use App\Http\Livewire\Student\StudentLivewire;
-use App\Http\Livewire\Course\CourseFormLivewire;
-use App\Http\Livewire\College\CollegeFormLivewire;
-use App\Http\Livewire\Program\ProgramFormLivewire;
-use App\Http\Livewire\Student\StudentFormLivewire;
 
 /*
 |--------------------------------------------------------------------------
@@ -50,5 +52,9 @@ Route::middleware(['user'])->group(function () {
     Route::get('/course', CourseLivewire::class)->name('course');
 
     Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
+    
+    Route::get('/curriculum', CurriculumLivewire::class)->name('curriculum');
+
+    Route::get('/curriculum/form/{curriculum_id?}', CurriculumFormLivewire::class)->name('curriculum.form');
 
 });
