@@ -74,6 +74,7 @@ class StudentPasswordLivewire extends Component
         if (Gate::allows('updatePassword', $student) && $student->update(['password' => Hash::make($data['password'])])) {
             $this->hide_modal($this->modal);
             $this->alert_success('Password Successfully Change');
+            $this->reset(['password','user_password']);
         }
     }
 }
