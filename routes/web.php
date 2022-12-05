@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\Auth\SigninLivewire;
+use App\Http\Livewire\Course\CourseLivewire;
 use App\Http\Livewire\College\CollegeLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Student\StudentLivewire;
+use App\Http\Livewire\Course\CourseFormLivewire;
 use App\Http\Livewire\College\CollegeFormLivewire;
 use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Student\StudentFormLivewire;
@@ -44,5 +46,9 @@ Route::middleware(['user'])->group(function () {
     Route::get('/student', StudentLivewire::class)->name('student');
 
     Route::get('/student/form/{user_id?}', StudentFormLivewire::class)->name('student.form');
+    
+    Route::get('/course', CourseLivewire::class)->name('course');
+
+    Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
 
 });

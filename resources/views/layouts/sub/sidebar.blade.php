@@ -30,5 +30,12 @@
                 <span>Program</span>
             </a>
         </li>
+
+        <li class="nav-item">
+            <a @class(['nav-link', 'collapsed' => $active_nav!='course']) href="{{ route('course') }}">
+                <i class="bi bi-building"></i>
+                <span>Course</span>
+            </a>
+        </li>
     </ul>
 </aside>
