@@ -23,7 +23,7 @@
     <hr>
     @foreach ($curriculum->courses as $course)
         <div class="card">
-            <div class="card-body">
+            <div class="card-body overflow-auto ">
                 <h4 class="card-title pt-4 pb-0">
                     {{ $course->yearString }} > {{$course->semesterString }}
                 </h4>
@@ -31,11 +31,11 @@
                 <table class="table table-hover">
                     <thead>
                         <tr>
-                            <th scope="col">Code</th>
-                            <th scope="col">Course</th>
-                            <th scope="col" class="text-center">Unit</th>
-                            <th scope="col" class="text-center">Lec</th>
-                            <th scope="col" class="text-center">Lab</th>
+                            <th scope="col" style="width: 10%; min-width: 100px;">Code</th>
+                            <th scope="col" style="width: 40%; min-width: 400px;">Course</th>
+                            <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Unit</th>
+                            <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lec</th>
+                            <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lab</th>
                         </tr>
                     </thead>
                     <tbody>
