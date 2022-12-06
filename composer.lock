@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9fd8c5b04e7006bfb7080481ae90f9b9",
+    "content-hash": "32c240355201a4b5e9a29bf5889fdf16",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,65 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.1.1"
             },
             "time": "2022-01-18T09:12:03+00:00"
+        },
+        {
+            "name": "bkwld/cloner",
+            "version": "3.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BKWLD/cloner.git",
+                "reference": "fda6f0564be1dda3992e0a1856d0f2128e58abbf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BKWLD/cloner/zipball/fda6f0564be1dda3992e0a1856d0f2128e58abbf",
+                "reference": "fda6f0564be1dda3992e0a1856d0f2128e58abbf",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^5.5|^6.0|^7.0|^8.0|^9.0",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "bkwld/upchuck": "^2.6@dev",
+                "illuminate/database": "^5.5|^6.0",
+                "league/flysystem-vfs": "^1.0",
+                "mockery/mockery": "^1.2.3",
+                "phpunit/phpunit": "~6.0|~8.0",
+                "satooshi/php-coveralls": "^1.0"
+            },
+            "suggest": {
+                "bkwld/upchuck": "Required for replicating of files."
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Bkwld\\Cloner\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Bkwld\\Cloner\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Robert Reinhard",
+                    "email": "info@bkwld.com"
+                }
+            ],
+            "description": "A trait for Laravel Eloquent models that lets you clone of a model and it's relationships, including files.",
+            "support": {
+                "issues": "https://github.com/BKWLD/cloner/issues",
+                "source": "https://github.com/BKWLD/cloner/tree/3.10.0"
+            },
+            "time": "2022-02-14T17:28:35+00:00"
         },
         {
             "name": "brick/math",

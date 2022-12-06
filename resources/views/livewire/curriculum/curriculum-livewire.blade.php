@@ -57,6 +57,10 @@
                                 class="btn btn-sm my-0 btn-primary">
                                 <i class="bi bi-file-medical"></i>
                             </a>
+                            <a wire:click="$emit('duplicate', {{ $curriculum->id }})"
+                                class="btn btn-sm my-0 btn-dark">
+                                <i class="bi bi-files"></i>
+                            </a>
                             <button onclick="delete_record({{ $curriculum->id }})" type="button"
                                 class="btn btn-sm my-0 btn-danger">
                                 <i class="bi bi-trash-fill"></i>
@@ -72,6 +76,8 @@
             </div>
         </div>
     </div>
+
+    @livewire('curriculum.curriculum-duplicate-livewire', key('curriculum-duplicate-livewire'))
 
     <script>
         function delete_record(id) {

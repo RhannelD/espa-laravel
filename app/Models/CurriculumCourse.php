@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CurriculumCourse extends Model
 {
     use HasFactory;
+    use \Bkwld\Cloner\Cloneable;
 
     const NUMBERTOSTRINGORDINALS = [
         1 => 'First',

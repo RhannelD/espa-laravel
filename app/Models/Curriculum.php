@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Curriculum extends Model
 {
     use HasFactory;
+    use \Bkwld\Cloner\Cloneable;
 
     const SEARCHFILTERS = [
         'track', 
@@ -23,6 +24,8 @@ class Curriculum extends Model
     protected $attributes = [
         'track' => '',
     ];
+
+    protected $cloneable_relations = ['references', 'courses'];
 
     // protected $casts = [
     //     'academic_year' => 'date:Y',

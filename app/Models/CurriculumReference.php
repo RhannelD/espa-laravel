@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class CurriculumReference extends Model
 {
     use HasFactory;
+    use \Bkwld\Cloner\Cloneable;
     
     protected $fillable = [
         'curriculum_id',

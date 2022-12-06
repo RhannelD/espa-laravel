@@ -21,6 +21,17 @@
         </div>
     </div>
     <hr>
+    <div class="text-end">
+        <a href="{{ route('curriculum') }}" class="btn btn-secondary">
+            <i class="bi bi-backspace"></i>
+            Back
+        </a>
+        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#duplicate-modal">
+            <i class="bi bi-files"></i>
+            Clone
+        </button>
+    </div>
+    <hr>
     @foreach ($curriculum->courses as $course)
         <div class="card">
             <div class="card-body overflow-auto ">
@@ -63,4 +74,6 @@
             </div>
         </div>
     @endforeach
+
+    @livewire('curriculum.curriculum-duplicate-livewire', ['curriculum' => $curriculum_id], key('curriculum-duplicate-livewire'))
 </div>
