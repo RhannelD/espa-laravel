@@ -36,7 +36,7 @@ class CurriculumSeeder extends Seeder
         return [
             [
                 'program' => 'BSIT',
-                'track' => 'NETWORK TECHNOLOGY TRACK',
+                'track' => 'Network Technology Track',
                 'academic_year' => '2018',
                 'references' => [
                     [
@@ -46,7 +46,7 @@ class CurriculumSeeder extends Seeder
             ],
             [
                 'program' => 'BSIT',
-                'track' => 'BUSINESS ANALYTICS TRACK',
+                'track' => 'Business Analytics Track',
                 'academic_year' => '2018',
                 'references' => [
                     [

@@ -53,6 +53,10 @@
                                 class="btn btn-sm my-0 btn-primary">
                                 <i class="bi bi-pen-fill"></i>
                             </a>
+                            <a href="{{ route('curriculum.course', [$curriculum->id]) }}"
+                                class="btn btn-sm my-0 btn-primary">
+                                <i class="bi bi-file-medical"></i>
+                            </a>
                             <button onclick="delete_record({{ $curriculum->id }})" type="button"
                                 class="btn btn-sm my-0 btn-danger">
                                 <i class="bi bi-trash-fill"></i>

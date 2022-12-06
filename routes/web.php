@@ -5,6 +5,7 @@ use App\Http\Livewire\College\CollegeFormLivewire;
 use App\Http\Livewire\College\CollegeLivewire;
 use App\Http\Livewire\Course\CourseFormLivewire;
 use App\Http\Livewire\Course\CourseLivewire;
+use App\Http\Livewire\Curriculum\CurriculumCourseLivewire;
 use App\Http\Livewire\Curriculum\CurriculumFormLivewire;
 use App\Http\Livewire\Curriculum\CurriculumLivewire;
 use App\Http\Livewire\Program\ProgramFormLivewire;
@@ -52,9 +53,15 @@ Route::middleware(['user'])->group(function () {
     Route::get('/course', CourseLivewire::class)->name('course');
 
     Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
-    
-    Route::get('/curriculum', CurriculumLivewire::class)->name('curriculum');
 
-    Route::get('/curriculum/form/{curriculum_id?}', CurriculumFormLivewire::class)->name('curriculum.form');
+    Route::prefix('/curriculum')->group(function () {
+
+        Route::get('/', CurriculumLivewire::class)->name('curriculum');
+
+        Route::get('/form/{curriculum_id?}', CurriculumFormLivewire::class)->name('curriculum.form');
+
+        Route::get('/{curriculum}/course', CurriculumCourseLivewire::class)->name('curriculum.course');
+
+    });
 
 });

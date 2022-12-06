@@ -30,6 +30,16 @@ class Curriculum extends Model
 
     # attributes -------------------------------------------------------
 
+    public function getTitleAttribute()
+    {
+        return trim("{$this->program->program} {$this->track}");
+    }
+
+    public function getAcademicYearsAttribute()
+    {
+        return $this->academic_year . " - " . ($this->academic_year+1);
+    }
+
     # relationships ----------------------------------------------------
 
     public function program()
@@ -40,6 +50,11 @@ class Curriculum extends Model
     public function references()
     {
         return $this->hasMany(CurriculumReference::class, 'curriculum_id', 'id');
+    }
+
+    public function courses()
+    {
+        return $this->hasMany(CurriculumCourse::class, 'curriculum_id', 'id');
     }
 
     # scopes -----------------------------------------------------------
