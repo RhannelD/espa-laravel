@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Curriculum;
 
 use App\Models\College;
 use App\Models\Curriculum;
+use App\Models\CurriculumReference;
 use App\Models\Program;
 use App\Traits\AlertTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -18,6 +19,7 @@ class CurriculumFormLivewire extends Component
     public $curriculum_id;
     public $curriculum;
     public $college_id;
+    public $references = [['id' => "0", 'reference' => '']];
 
     protected function rules()
     {
@@ -26,8 +28,17 @@ class CurriculumFormLivewire extends Component
             'curriculum.program_id' => "required|exists:programs,id",
             'curriculum.track' => "required",
             'curriculum.academic_year' => "required|digits:4|integer|min:1900|max:".(date('Y')+2),
+            'references' => "required|array|min:1",
+            'references.*.id' => "required|integer|min:0",
+            'references.*.reference' => "required|distinct",
         ];
     }
+
+    protected $validationAttributes = [
+        'college_id' => 'college',
+        'curriculum.program_id' => 'program',
+        'references.*.reference' => 'reference',
+    ];
 
     public function mount($curriculum_id=null)
     {
@@ -39,6 +50,7 @@ class CurriculumFormLivewire extends Component
 
         $this->curriculum = $curriculum? $curriculum->replicate(): new Curriculum;
         $this->college_id = $curriculum? $curriculum->program->college_id: null;
+        $this->references = $curriculum? $curriculum->references()->select('id', 'reference')->get()->toArray(): $this->references;
     }
 
     public function render()
@@ -83,6 +95,19 @@ class CurriculumFormLivewire extends Component
         $this->curriculum->program_id = null;
     }
 
+    public function addReference()
+    {
+        $this->references[] =[
+            'id' => "0",
+            'reference' => '',
+        ];
+    }
+
+    public function removeReference($index)
+    {
+        unset($this->references[$index]);
+    }
+
     public function save()
     {
         $data = $this->validate();
@@ -105,6 +130,9 @@ class CurriculumFormLivewire extends Component
         $curriculum = Curriculum::create($data['curriculum']);
     
         if ( $curriculum->wasRecentlyCreated ) {
+            foreach ($data['references'] as $reference) {
+                $curriculum->references()->create($reference);
+            }
             $this->session_flash_alert_info('Success!', 'Record has been successfully added');
             return true;
         }
@@ -113,9 +141,29 @@ class CurriculumFormLivewire extends Component
     protected function update($data)
     {
         $curriculum = Curriculum::find($this->curriculum_id);
-        if ( Gate::allows('update', $curriculum) && $curriculum->update($data['curriculum']) ) {
-            $this->session_flash_alert_info('Success!', 'Record has been successfully updated');
-            return true;
+        if ( Gate::denies('update', $curriculum) ) {
+            return;
         }
+
+        $updated = false;
+        if ($curriculum->update($data['curriculum'])) {
+            $updated = true;
+        }
+
+        $references = collect($data['references']);
+
+        if ($curriculum->references()->whereNotIn('id', $references->where('id', '!=', 0)->pluck('id'))->delete()) {
+            $updated = true;
+        }
+        foreach ($references as $reference) {
+            $curriculum->references()->updateOrCreate([
+                'id' => $reference['id'],
+            ], [
+                'reference' => $reference['reference'],
+            ]);
+        }
+        
+        $this->session_flash_alert_info('Success!', 'Record has been successfully updated');
+        return $updated;
     }
 }

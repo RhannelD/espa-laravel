@@ -37,6 +37,11 @@ class Curriculum extends Model
         return $this->belongsTo(Program::class, 'program_id', 'id');
     }
 
+    public function references()
+    {
+        return $this->hasMany(CurriculumReference::class, 'curriculum_id', 'id');
+    }
+
     # scopes -----------------------------------------------------------
 
     public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)
