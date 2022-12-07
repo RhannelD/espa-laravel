@@ -43,14 +43,12 @@ class CurriculumCourse extends Model
 
     public function getYearStringAttribute()
     {
-        $number_string_ordinals = self::NUMBERTOSTRINGORDINALS;
-        return "{$number_string_ordinals[$this->year]} Year";
+        return $this->getYearString($this->year);
     }
 
     public function getSemesterStringAttribute()
     {
-        $number_string_ordinals = self::NUMBERTOSTRINGORDINALS;
-        return $this->semester==3? 'Summer': "{$number_string_ordinals[$this->semester]} Semester";
+        return $this->getSemesterString($this->semester);
     }
 
     # relationships ----------------------------------------------------
@@ -71,5 +69,15 @@ class CurriculumCourse extends Model
 
     # custom functions --------------------------------------------------
 
+    public static function getYearString($year)
+    {
+        $number_string_ordinals = self::NUMBERTOSTRINGORDINALS;
+        return "{$number_string_ordinals[$year]} Year";
+    }
 
+    public static function getSemesterString($semester)
+    {
+        $number_string_ordinals = self::NUMBERTOSTRINGORDINALS;
+        return $semester==3? 'Summer': "{$number_string_ordinals[$semester]} Semester";
+    }
 }

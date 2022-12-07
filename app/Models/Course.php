@@ -31,7 +31,10 @@ class Course extends Model
 
     # relationships ----------------------------------------------------
 
-
+    public function curriculum_courses()
+    {
+        return $this->hasMany(CurriculumCourse::class, 'course_id', 'id');
+    }
 
     # scopes -----------------------------------------------------------
 

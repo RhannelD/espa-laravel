@@ -1,25 +1,5 @@
 <div>
-    <div class="card">
-        <div class="card-body">
-            <h4 class="card-title pt-4 pb-0">
-                {{ $curriculum->program->program }}
-                @if (!empty($curriculum->track))
-                    > {{ $curriculum->track }}
-                @endif
-            </h4>
-            <div class="row">
-                <div>
-                    {{ $curriculum->program->college->college }}
-                </div>
-                <div>
-                    {{ $curriculum->references->pluck('reference')->implode(', ') }}
-                </div>
-                <div>
-                    AY: {{ $curriculum->academic_years }}
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('livewire.curriculum.curriculum-info')
     <hr>
     <div class="text-end">
         <a href="{{ route('curriculum') }}" class="btn btn-secondary">
@@ -30,6 +10,10 @@
             <i class="bi bi-files"></i>
             Clone
         </button>
+        <a href="{{ route('curriculum.course.form', ['curriculum'=>$curriculum_id]) }}" class="btn btn-primary">
+            <i class="bi bi-pen-fill"></i>
+            Edit Course
+        </a>
     </div>
     <hr>
     @foreach ($curriculum->courses as $course)
