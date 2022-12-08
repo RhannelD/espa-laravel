@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Curriculum\Form;
 
 use App\Models\Curriculum;
+use App\Models\CurriculumCourse;
 use Livewire\Component;
 
 class CurriculumCourseLivewire extends Component
@@ -44,5 +45,12 @@ class CurriculumCourseLivewire extends Component
             'program',
             'references',
         ]);
+    }
+
+    public function emptyCurriculum()
+    {
+        CurriculumCourse::where('curriculum_id', $this->curriculum_id)->delete();
+        
+        $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
     }
 }

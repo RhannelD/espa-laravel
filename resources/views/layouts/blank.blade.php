@@ -31,10 +31,14 @@
     @livewireStyles
     @livewireScripts
 
-    <script defer src="{{ asset('js/app.js') }}"></script>
-    <script defer src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-    <script defer src="{{ asset('js/sweetalert.min.js') }}"></script>
-    <script defer src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="{{ asset('js/cookies.js') }}"></script>
+    <script src="{{ asset('niceadmin/vendor/apexcharts/apexcharts.min.js') }}"></script>
+    <script src="{{ asset('niceadmin/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('js/sweetalert.min.js') }}"></script>
+    <script src="{{ asset('js/jquery-3.5.1.min.js') }}"></script>
+    <script src="{{ asset('js/app_main.js') }}"></script>
+    <script defer src="{{ asset('js/alpinemaskjs.min.js') }}"></script>
     <script defer src="{{ asset('js/alpinejs.min.js') }}"></script>
 </head>
 

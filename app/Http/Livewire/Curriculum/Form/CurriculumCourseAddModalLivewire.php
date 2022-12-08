@@ -80,7 +80,7 @@ class CurriculumCourseAddModalLivewire extends Component
         if ($curriculum_course->wasRecentlyCreated) {
             session()->flash('successful', 'Course successfully added.');
 
-            $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
+            $this->emitTo('curriculum.form.curriculum-course-semester-livewire', "refresh_{$this->year}y_{$this->semester}s_courses");
         }
     }
 }

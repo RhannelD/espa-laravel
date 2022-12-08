@@ -11,9 +11,13 @@ class CurriculumCourseSemesterLivewire extends Component
     public $year;
     public $semester;
 
-    protected $listeners = [
-        'refresh' => '$refresh',
-    ];
+    protected function getListeners()
+    {
+        return [
+            "refresh" => '$refresh',
+            "refresh_{$this->year}y_{$this->semester}s_courses" => '$refresh',
+        ];
+    }
 
     public function mount($curriculum_id, $year, $semester)
     {

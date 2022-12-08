@@ -17,20 +17,41 @@
             <i class="bi bi-files"></i>
             Clone Other
         </button>
+        <button onclick="empty_curriculum()" class="btn btn-danger">
+            <i class="bi bi-file-x"></i>
+            Empty Curriculum
+        </button>
     </div>
     <hr>
-    <div>
+    <div wire:key="curriculum_semester">
         @foreach (\App\Models\CurriculumCourse::NUMBERTOSTRINGORDINALS as $year => $value)
             @for ($semester = 1; $semester <= 3; $semester++)
                 @livewire('curriculum.form.curriculum-course-semester-livewire', [
                     'curriculum_id' => $curriculum_id,
                     'year' => $year,
                     'semester' => $semester,
-                ], key("{$curriculum_id}-{$year}-{$semester}"))
+                ], key("semester_course-{$curriculum_id}_{$year}_{$semester}"))
             @endfor
         @endforeach
     </div>
 
     @livewire('curriculum.form.curriculum-course-add-modal-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
-    @livewire('curriculum.form.curriculum-course-clone-other-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
+    @livewire('curriculum.form.curriculum-course-clone-other-livewire', ['curriculum_id' => $curriculum_id], key('curriculum.form.curriculum-course-clone-other-livewire'))
+
+    <script>
+        function empty_curriculum() {
+            swal({
+				title: 'Empty this curriculum\'s courses?',
+				text: 'You will not be able to recover it',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+                buttons: ['Cancel', 'Yes, Delete It'],
+            }).then((agree) => {
+				if (agree) {
+                    @this.emptyCurriculum();
+				}
+            });
+        }
+    </script>
 </div>
