@@ -9,6 +9,7 @@ use App\Http\Livewire\Curriculum\CurriculumCourseLivewire;
 use App\Http\Livewire\Curriculum\CurriculumFormLivewire;
 use App\Http\Livewire\Curriculum\CurriculumLivewire;
 use App\Http\Livewire\Curriculum\Form\CurriculumCourseLivewire as CurriculumCourseFormLivewire;
+use App\Http\Livewire\Dashboard\DashboardLivewire;
 use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Student\StudentFormLivewire;
@@ -39,6 +40,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::middleware(['user'])->group(function () {
     
+    Route::get('/dashboard', DashboardLivewire::class)->name('dashboard');
+
     Route::get('/college', CollegeLivewire::class)->name('college');
     
     Route::get('/college/form/{college_id?}', CollegeFormLivewire::class)->name('college.form');

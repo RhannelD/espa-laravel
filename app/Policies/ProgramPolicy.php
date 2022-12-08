@@ -18,7 +18,7 @@ class ProgramPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class ProgramPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -53,7 +53,7 @@ class ProgramPolicy
      */
     public function update(User $user, Program $program)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -65,7 +65,7 @@ class ProgramPolicy
      */
     public function delete(User $user, Program $program)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**

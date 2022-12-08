@@ -18,7 +18,7 @@ class CurriculumPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -30,7 +30,7 @@ class CurriculumPolicy
      */
     public function view(User $user, Curriculum $curriculum)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class CurriculumPolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -53,7 +53,7 @@ class CurriculumPolicy
      */
     public function update(User $user, Curriculum $curriculum)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -65,7 +65,7 @@ class CurriculumPolicy
      */
     public function delete(User $user, Curriculum $curriculum)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**

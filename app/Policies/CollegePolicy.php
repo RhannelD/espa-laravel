@@ -18,7 +18,7 @@ class CollegePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class CollegePolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -53,7 +53,7 @@ class CollegePolicy
      */
     public function update(User $user, College $college)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -65,7 +65,7 @@ class CollegePolicy
      */
     public function delete(User $user, College $college)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**

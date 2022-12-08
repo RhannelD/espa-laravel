@@ -4,7 +4,7 @@
     @endphp
     <ul class="sidebar-nav" id="sidebar-nav">
         <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='dashboard']) href="">
+            <a @class(['nav-link', 'collapsed' => $active_nav!='dashboard']) href="{{ route('dashboard') }}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>

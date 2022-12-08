@@ -18,7 +18,7 @@ class CoursePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -41,7 +41,7 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        return $user->isAdmin;
+        return $user->hasRole('Super Admin');
     }
 
     /**
@@ -53,7 +53,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**
@@ -65,7 +65,7 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        return $user->isAdmin;
+        //
     }
 
     /**

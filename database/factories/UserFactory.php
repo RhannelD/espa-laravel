@@ -15,7 +15,6 @@ class UserFactory extends Factory
     public function definition()
     {
         return [
-            'usertype' => 'student',
             'firstname' => $this->faker->firstname(),
             'lastname' => $this->faker->lastname(),
             'sex' => rand(0,1)? 'male': 'female',

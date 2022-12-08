@@ -7,10 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -18,7 +19,6 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'usertype',
         'sr_code',
         'firstname',
         'lastname',
@@ -28,7 +28,6 @@ class User extends Authenticatable
     ];
 
     protected $attributes = [
-        'usertype' => 'student',
         'sex' => 'male',
     ];
 
@@ -58,14 +57,14 @@ class User extends Authenticatable
         return "{$this->firstname} {$this->lastname}";
     }
 
-    public function getIsAdminAttribute()
+    public function getIsSuperAdminAttribute()
     {
-        return $this->usertype === 'admin';
+        return $user->hasRole('Super Admin');
     }
 
     public function getIsStudentAttribute()
     {
-        return $this->usertype === 'student';
+        return !is_null($user->sr_code);
     }
 
     # relationships ----------------------------------------------------
@@ -95,7 +94,7 @@ class User extends Authenticatable
 
     public function scopeIsStudent($query)
     {
-        $query->where('usertype', 'student');
+        $query->whereNotNull('sr_code');
     }
 
     # custom functions --------------------------------------------------
