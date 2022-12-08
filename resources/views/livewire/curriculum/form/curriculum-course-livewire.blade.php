@@ -13,7 +13,7 @@
             <i class="bi bi-backspace"></i>
             Back
         </a>
-        <button class="btn btn-dark">
+        <button wire:click="$emitTo('curriculum.form.curriculum-course-clone-other-livewire', 'open_other_clone_selection')" class="btn btn-dark">
             <i class="bi bi-files"></i>
             Clone Other
         </button>
@@ -32,4 +32,5 @@
     </div>
 
     @livewire('curriculum.form.curriculum-course-add-modal-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
+    @livewire('curriculum.form.curriculum-course-clone-other-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
 </div>
