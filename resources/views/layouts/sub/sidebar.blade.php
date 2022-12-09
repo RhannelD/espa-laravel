@@ -52,5 +52,44 @@
                 </a>
             </li>
         @endcan
+
+        @php
+            $canSetting = [];
+        @endphp
+        @can(['viewAny'], \Spatie\Permission\Models\Permission::class)
+            @php
+                $canSetting[] = 'permission';
+            @endphp
+        @endcan
+        @can(['viewAny'], \Spatie\Permission\Models\Role::class)
+            @php
+                $canSetting[] = 'role';
+            @endphp
+        @endcan
+        @if (count($canSetting))
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => !in_array($active_nav,['role', 'permission'])]) data-bs-target="#setting-nav" data-bs-toggle="collapse" href="#">
+                    <i class="bi bi-gear"></i>
+                    <span>Setting</span>
+                    <i class="bi bi-chevron-down ms-auto"></i>
+                </a>
+                <ul id="setting-nav" @class(['nav-content collapse', 'show' => in_array($active_nav,['role', 'permission'])]) data-bs-parent="#sidebar-nav">
+                    @if(in_array('role', $canSetting))
+                        <li>
+                            <a @class(['active' => $active_nav=='role']) href="{{ route('role') }}">
+                                <i class="bi bi-circle"></i><span>Role</span>
+                            </a>
+                        </li>
+                    @endif
+                    @if(in_array('permission', $canSetting))
+                        <li>
+                            <a @class(['active' => $active_nav=='permission']) href="{{ route('permission') }}">
+                                <i class="bi bi-circle"></i><span>Permission</span>
+                            </a>
+                        </li>
+                    @endif
+                </ul>
+            </li>
+        @endif
     </ul>
 </aside>

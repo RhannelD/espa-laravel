@@ -63,42 +63,64 @@ class RoleSeeder extends Seeder
     public function createPermissions()
     {
         $permission_list = [
-            'User List',
-            'User View',
-            'User Create',
-            'User Update',
-            'User Update Password',
-            'User Delete',
-
-            'Course List',
-            'Course View',
-            'Course Create',
-            'Course Update',
-            'Course Delete',
-
-            'Program List',
-            'Program View',
-            'Program Create',
-            'Program Update',
-            'Program Delete',
-
-            'College List',
-            'College View',
-            'College Create',
-            'College Update',
-            'College Delete',
-
-            'Curriculum List',
-            'Curriculum View',
-            'Curriculum Create',
-            'Curriculum Update',
-            'Curriculum Delete',
-            'Curriculum Duplicate',
-            'Curriculum Update Course',
+            'User' => [
+                'User List',
+                'User View',
+                'User Create',
+                'User Update',
+                'User Update Password',
+                'User Delete',
+            ],
+            'Course' => [
+                'Course List',
+                'Course View',
+                'Course Create',
+                'Course Update',
+                'Course Delete',
+            ],
+            'Program' => [
+                'Program List',
+                'Program View',
+                'Program Create',
+                'Program Update',
+                'Program Delete',
+            ],
+            'College' => [
+                'College List',
+                'College View',
+                'College Create',
+                'College Update',
+                'College Delete',
+            ],
+            'Curriculum' => [
+                'Curriculum List',
+                'Curriculum View',
+                'Curriculum Create',
+                'Curriculum Update',
+                'Curriculum Delete',
+                'Curriculum Duplicate',
+                'Curriculum Update Course',
+            ],
+            'Role' => [
+                'Role List',
+                'Role View',
+                'Role Create',
+                'Role Update',
+                'Role Delete',
+            ],
+            'Permission' => [
+                'Permission List',
+                'Permission Give',
+            ],
         ];
 
-        foreach ($permission_list as $permission_value) {
-            $permission = Permission::create(['name' => $permission_value]);
+        foreach ($permission_list as $group => $permissions) {
+            foreach ($permissions as $permission_value) {
+                $permission = Permission::create([
+                    'name' => $permission_value,
+                    'group' => $group,
+                ]);
+            }
         }
     }
 }
