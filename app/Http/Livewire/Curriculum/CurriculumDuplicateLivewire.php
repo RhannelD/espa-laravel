@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Curriculum;
 use App\Models\Curriculum;
 use App\Traits\AlertTrait;
 use App\Traits\ModalTrait;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class CurriculumDuplicateLivewire extends Component
@@ -36,6 +37,9 @@ class CurriculumDuplicateLivewire extends Component
 
     public function settingCurriculum(Curriculum $curriculum)
     {
+        if (Gate::denies('duplicate', $curriculum)) {
+            return;
+        }
         $this->curriculum_id = $curriculum->id;
         $this->academic_year = $curriculum->academic_year;
         $this->show_modal('duplicate-modal');
@@ -55,6 +59,9 @@ class CurriculumDuplicateLivewire extends Component
     {
         $data = $this->validate();
         $curriculum = Curriculum::find($this->curriculum_id);
+        if (Gate::denies('duplicate', $curriculum)) {
+            return;
+        }
 
         $exists = Curriculum::query()
             ->where('program_id', $curriculum->program_id)

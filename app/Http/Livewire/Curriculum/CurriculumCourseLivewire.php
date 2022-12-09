@@ -3,14 +3,18 @@
 namespace App\Http\Livewire\Curriculum;
 
 use App\Models\Curriculum;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Livewire\Component;
 
 class CurriculumCourseLivewire extends Component
 {
+    use AuthorizesRequests;
+    
     public $curriculum_id;
 
     public function mount(Curriculum $curriculum)
     {
+        $this->authorize('view', $curriculum);
         $this->curriculum_id = $curriculum->id;
     }
 

@@ -3,8 +3,10 @@
 namespace App\Http\Livewire\Curriculum\Form;
 
 use App\Models\Course;
+use App\Models\Curriculum;
 use App\Traits\AlertTrait;
 use App\Traits\ModalTrait;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -65,14 +67,18 @@ class CurriculumCourseAddModalLivewire extends Component
 
     public function addCourse($course_id)
     {
-        $course = Course::find($course_id);
-
-        if ($course->curriculum_courses()->where('curriculum_id', $this->curriculum_id)->exists()) {
-            $this->alert_error('Course Already Added!');
+        $curriculum = Curriculum::find($this->curriculum_id);
+        if (Gate::denies('update', $curriculum) || !Course::where('id', $course_id)->exists()) {
+            return;
         }
 
-        $curriculum_course = $course->curriculum_courses()->create([
-            'curriculum_id' => $this->curriculum_id,
+        if ($curriculum->courses()->where('course_id', $course_id)->exists()) {
+            $this->alert_error('Course Already Added!');
+            return;
+        }
+
+        $curriculum_course = $curriculum->courses()->create([
+            'course_id' => $course_id,
             'year' => $this->year,
             'semester' => $this->semester,
         ]);

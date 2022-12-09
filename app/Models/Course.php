@@ -8,7 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-    
+
+    const SEARCHFILTERS = [
+        'code',
+        'course',
+    ];
+
     protected $fillable = [
         'code',
         'course',
@@ -27,8 +32,6 @@ class Course extends Model
 
     # attributes -------------------------------------------------------
 
-
-
     # relationships ----------------------------------------------------
 
     public function curriculum_courses()
@@ -38,15 +41,21 @@ class Course extends Model
 
     # scopes -----------------------------------------------------------
 
-    public function scopeSearch($query, $search)
+    public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)
     {
-        $query->where(function($query) use ($search) {
-            $query->where('code', 'like', "%{$search}%")
-            ->orWhere('course', 'like', "%{$search}%");
+        $query->where(function ($query) use ($search, $filter) {
+            foreach ($filter as $key => $filter_item) {
+                if (is_array($filter_item)) {
+                    $query->orWhereHas($key, function ($query) use ($search, $filter_item) {
+                        $query->search($search, $filter_item);
+                    });
+                } else {
+                    $query->orWhere($filter_item, 'like', "%{$search}%");
+                }
+            }
         });
     }
 
     # custom functions --------------------------------------------------
-
 
 }

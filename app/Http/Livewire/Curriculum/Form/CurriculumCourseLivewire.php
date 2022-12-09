@@ -4,14 +4,19 @@ namespace App\Http\Livewire\Curriculum\Form;
 
 use App\Models\Curriculum;
 use App\Models\CurriculumCourse;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class CurriculumCourseLivewire extends Component
 {
+    use AuthorizesRequests;
+    
     public $curriculum_id;
 
     public function mount(Curriculum $curriculum)
     {
+        $this->authorize('update', $curriculum);
         $this->curriculum_id = $curriculum->id;
     }
 
@@ -49,8 +54,11 @@ class CurriculumCourseLivewire extends Component
 
     public function emptyCurriculum()
     {
-        CurriculumCourse::where('curriculum_id', $this->curriculum_id)->delete();
-        
-        $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
+        $curriculum = Curriculum::find($this->curriculum_id);
+        if (Gate::allows('update', $curriculum)) {
+            $curriculum->courses()->delete();
+
+            $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
+        }
     }
 }

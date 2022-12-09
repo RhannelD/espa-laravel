@@ -18,7 +18,7 @@ class CollegePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermissionTo('College List')? true: null;
     }
 
     /**
@@ -30,7 +30,7 @@ class CollegePolicy
      */
     public function view(User $user, College $college)
     {
-        //
+        return $user->hasPermissionTo('College View')? true: null;
     }
 
     /**
@@ -41,7 +41,7 @@ class CollegePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermissionTo('College Create')? true: null;
     }
 
     /**
@@ -53,7 +53,7 @@ class CollegePolicy
      */
     public function update(User $user, College $college)
     {
-        //
+        return $user->hasPermissionTo('College Update')? true: null;
     }
 
     /**
@@ -65,7 +65,7 @@ class CollegePolicy
      */
     public function delete(User $user, College $college)
     {
-        //
+        return $user->hasPermissionTo('College Delete')? true: null;
     }
 
     /**

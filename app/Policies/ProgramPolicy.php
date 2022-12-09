@@ -18,7 +18,7 @@ class ProgramPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermissionTo('Program List')? true: null;
     }
 
     /**
@@ -30,7 +30,7 @@ class ProgramPolicy
      */
     public function view(User $user, Program $program)
     {
-        //
+        return $user->hasPermissionTo('Program View')? true: null;
     }
 
     /**
@@ -41,7 +41,7 @@ class ProgramPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermissionTo('Program Create')? true: null;
     }
 
     /**
@@ -53,7 +53,7 @@ class ProgramPolicy
      */
     public function update(User $user, Program $program)
     {
-        //
+        return $user->hasPermissionTo('Program Update')? true: null;
     }
 
     /**
@@ -65,7 +65,7 @@ class ProgramPolicy
      */
     public function delete(User $user, Program $program)
     {
-        //
+        return $user->hasPermissionTo('Program Delete')? true: null;
     }
 
     /**

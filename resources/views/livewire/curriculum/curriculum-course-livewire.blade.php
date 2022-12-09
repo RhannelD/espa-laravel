@@ -6,14 +6,18 @@
             <i class="bi bi-backspace"></i>
             Back
         </a>
-        <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#duplicate-modal">
-            <i class="bi bi-files"></i>
-            Clone
-        </button>
-        <a href="{{ route('curriculum.course.form', ['curriculum'=>$curriculum_id]) }}" class="btn btn-primary">
-            <i class="bi bi-pen-fill"></i>
-            Edit Course
-        </a>
+        @can('duplicate', $curriculum)
+            <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#duplicate-modal">
+                <i class="bi bi-files"></i>
+                Clone
+            </button>
+        @endcan
+        @can('update', $curriculum)
+            <a href="{{ route('curriculum.course.form', ['curriculum'=>$curriculum_id]) }}" class="btn btn-primary">
+                <i class="bi bi-pen-fill"></i>
+                Edit Course
+            </a>
+        @endcan
     </div>
     <hr>
     @foreach ($curriculum->courses as $course)

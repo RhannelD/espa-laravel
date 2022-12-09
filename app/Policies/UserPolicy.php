@@ -52,7 +52,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $user->isAdmin || $user->id == $model->id;
+        return $user->id == $model->id? true: null;
     }
 
     /**
@@ -64,7 +64,7 @@ class UserPolicy
      */
     public function updatePassword(User $user, User $model)
     {
-        return $user->isAdmin || $user->id == $model->id;
+        return $user->id == $model->id? true: null;
     }
 
     /**
@@ -76,7 +76,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $user->isAdmin && !$model->isAdmin;
+        return !$model->isSuserAdmin;
     }
 
     /**

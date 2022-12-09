@@ -11,12 +11,14 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-6 text-end">
-                    <a href="{{ route('course.form') }}" type="button" class="btn btn-success">
-                        <i class="bi bi-plus-circle-fill"></i>
-                        Create
-                    </a>
-                </div>
+                @can('create', \App\Models\Course::class)
+                    <div class="col-md-6 text-end">
+                        <a href="{{ route('course.form') }}" type="button" class="btn btn-success">
+                            <i class="bi bi-plus-circle-fill"></i>
+                            Create
+                        </a>
+                    </div>
+                @endcan
             </div>
 
             <table class="table table-hover">
@@ -53,14 +55,18 @@
                             {{ $course->laboratory }}
                         </td>
                         <td class="text-center py-1">
-                            <a href="{{ route('course.form', [$course->id]) }}"
-                                class="btn btn-sm my-0 btn-primary">
-                                <i class="bi bi-pen-fill"></i>
-                            </a>
-                            <button onclick="delete_record({{ $course->id }})" type="button"
-                                class="btn btn-sm my-0 btn-danger">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
+                            @can('update', $course)
+                                <a href="{{ route('course.form', [$course->id]) }}"
+                                    class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-pen-fill"></i>
+                                </a>
+                            @endcan
+                            @can('delete', $course)
+                                <button onclick="delete_record({{ $course->id }})" type="button"
+                                    class="btn btn-sm my-0 btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            @endcan
                         </td>
                     </tr>
                     @endforeach

@@ -59,13 +59,15 @@ class CurriculumCourseCloneOtherLivewire extends Component
     public function duplicate($duplicate_curriculum_id)
     {
         $curriculum_duplicating = Curriculum::find($duplicate_curriculum_id); 
-        if (is_null($curriculum_duplicating)) {
-            $this->alert_error('Curriculum to Duplicate Not Found!');
+        if (Gate::denies('duplicate', $curriculum_duplicating)) {
+            $this->alert_error('You dont have permission!');
             return;
         }
+
         $curriculum_id = $this->curriculum_id;
         $curriculum = Curriculum::find($curriculum_id);
-        if (is_null($curriculum)) {
+        if (Gate::denies('update', $curriculum)) {
+            $this->alert_error('You dont have permission!');
             return;
         }
 

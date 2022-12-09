@@ -17,32 +17,40 @@
             </a>
         </li>
 
-        <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='curriculum']) href="{{ route('curriculum') }}">
-                <i class="bi bi-file-medical"></i>
-                <span>Curriculum</span>
-            </a>
-        </li>
+        @can('viewAny', \App\Models\Curriculum::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='curriculum']) href="{{ route('curriculum') }}">
+                    <i class="bi bi-file-medical"></i>
+                    <span>Curriculum</span>
+                </a>
+            </li>
+        @endcan
 
-        <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='college']) href="{{ route('college') }}">
-                <i class="bi bi-building"></i>
-                <span>College</span>
-            </a>
-        </li>
+        @can('viewAny', \App\Models\College::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='college']) href="{{ route('college') }}">
+                    <i class="bi bi-building"></i>
+                    <span>College</span>
+                </a>
+            </li>
+        @endcan
 
-        <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='program']) href="{{ route('program') }}">
-                <i class="bi bi-journals"></i>
-                <span>Program</span>
-            </a>
-        </li>
+        @can('viewAny', \App\Models\Program::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='program']) href="{{ route('program') }}">
+                    <i class="bi bi-journals"></i>
+                    <span>Program</span>
+                </a>
+            </li>
+        @endcan
 
-        <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='course']) href="{{ route('course') }}">
-                <i class="bi bi-journal"></i>
-                <span>Course</span>
-            </a>
-        </li>
+        @can('viewAny', \App\Models\Course::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='course']) href="{{ route('course') }}">
+                    <i class="bi bi-journal"></i>
+                    <span>Course</span>
+                </a>
+            </li>
+        @endcan
     </ul>
 </aside>

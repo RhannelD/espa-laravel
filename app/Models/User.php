@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +11,13 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
+
+    const SEARCHFILTERS = [
+        'sr_code',
+        'firstname',
+        'lastname',
+        'email',
+    ];
 
     /**
      * The attributes that are mass assignable.
@@ -76,14 +82,24 @@ class User extends Authenticatable
 
     # scopes -----------------------------------------------------------
 
-    public function scopeSearch($query, $search)
+    public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)
     {
-        $query->where(function ($query) use ($search){
-            $query->where(\DB::raw('CONCAT(firstname, " ", lastname)'), 'like', "%{$search}%")
-            ->orWhere('email', 'like', "%{$search}%")
-            ->orWhereHas('student', function($query) use ($search) {
-                $query->where('sr_code', 'like', "%{$search}%");
+        $query->where(function ($query) use ($search, $filter) {
+            $query_flname = count(array_intersect(['firstname', 'lastname'], $filter)) == 2;
+            $filter = $query_flname ? array_diff($filter, ['firstname', 'lastname']) : $filter;
+            $query->when($query_flname, function ($query) use ($search, $filter) {
+                $query->where(\DB::raw('CONCAT(firstname, " ", lastname)'), 'like', "%{$search}%");
             });
+
+            foreach ($filter as $key => $filter_item) {
+                if (is_array($filter_item)) {
+                    $query->orWhereHas($key, function ($query) use ($search, $filter_item) {
+                        $query->search($search, $filter_item);
+                    });
+                } else {
+                    $query->orWhere($filter_item, 'like', "%{$search}%");
+                }
+            }
         });
     }
 
@@ -98,6 +114,5 @@ class User extends Authenticatable
     }
 
     # custom functions --------------------------------------------------
-
 
 }

@@ -11,12 +11,14 @@
                         </button>
                     </div>
                 </div>
-                <div class="col-md-6 text-end">
-                    <a href="{{ route('curriculum.form') }}" type="button" class="btn btn-success">
-                        <i class="bi bi-plus-circle-fill"></i>
-                        Create
-                    </a>
-                </div>
+                @can('create', \App\Models\Curriculum::class)
+                    <div class="col-md-6 text-end">
+                        <a href="{{ route('curriculum.form') }}" type="button" class="btn btn-success">
+                            <i class="bi bi-plus-circle-fill"></i>
+                            Create
+                        </a>
+                    </div>
+                @endcan
             </div>
 
             <table class="table table-hover">
@@ -49,22 +51,30 @@
                             {{ $curriculum->academic_year }}
                         </td>
                         <td class="text-center py-1">
-                            <a href="{{ route('curriculum.form', [$curriculum->id]) }}"
-                                class="btn btn-sm my-0 btn-primary">
-                                <i class="bi bi-pen-fill"></i>
-                            </a>
-                            <a href="{{ route('curriculum.course', [$curriculum->id]) }}"
-                                class="btn btn-sm my-0 btn-primary">
-                                <i class="bi bi-file-medical"></i>
-                            </a>
-                            <a wire:click="$emit('duplicate', {{ $curriculum->id }})"
-                                class="btn btn-sm my-0 btn-dark">
-                                <i class="bi bi-files"></i>
-                            </a>
-                            <button onclick="delete_record({{ $curriculum->id }})" type="button"
-                                class="btn btn-sm my-0 btn-danger">
-                                <i class="bi bi-trash-fill"></i>
-                            </button>
+                            @can('update', $curriculum)
+                                <a href="{{ route('curriculum.form', [$curriculum->id]) }}"
+                                    class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-pen-fill"></i>
+                                </a>
+                            @endcan
+                            @can('view', $curriculum)
+                                <a href="{{ route('curriculum.course', [$curriculum->id]) }}"
+                                    class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-file-medical"></i>
+                                </a>
+                            @endcan
+                            @can('duplicate', $curriculum)
+                                <a wire:click="$emit('duplicate', {{ $curriculum->id }})"
+                                    class="btn btn-sm my-0 btn-dark">
+                                    <i class="bi bi-files"></i>
+                                </a>
+                            @endcan
+                            @can('delete', $curriculum)
+                                <button onclick="delete_record({{ $curriculum->id }})" type="button"
+                                    class="btn btn-sm my-0 btn-danger">
+                                    <i class="bi bi-trash-fill"></i>
+                                </button>
+                            @endcan
                         </td>
                     </tr>
                     @endforeach

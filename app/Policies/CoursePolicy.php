@@ -18,7 +18,7 @@ class CoursePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermissionTo('Course List')? true: null;
     }
 
     /**
@@ -30,7 +30,7 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-        //
+        return $user->hasPermissionTo('Course View')? true: null;
     }
 
     /**
@@ -41,7 +41,7 @@ class CoursePolicy
      */
     public function create(User $user)
     {
-        return $user->hasRole('Super Admin');
+        return $user->hasPermissionTo('Course Create')? true: null;
     }
 
     /**
@@ -53,7 +53,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        //
+        return $user->hasPermissionTo('Course Update')? true: null;
     }
 
     /**
@@ -65,7 +65,7 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        //
+        return $user->hasPermissionTo('Course Delete')? true: null;
     }
 
     /**

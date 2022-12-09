@@ -18,7 +18,7 @@ class CurriculumPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasPermissionTo('Curriculum List')? true: null;
     }
 
     /**
@@ -30,7 +30,7 @@ class CurriculumPolicy
      */
     public function view(User $user, Curriculum $curriculum)
     {
-        //
+        return $user->hasPermissionTo('Curriculum View')? true: null;
     }
 
     /**
@@ -41,7 +41,7 @@ class CurriculumPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasPermissionTo('Curriculum Create')? true: null;
     }
 
     /**
@@ -53,7 +53,7 @@ class CurriculumPolicy
      */
     public function update(User $user, Curriculum $curriculum)
     {
-        //
+        return $user->hasPermissionTo('Curriculum Update')? true: null;
     }
 
     /**
@@ -65,7 +65,19 @@ class CurriculumPolicy
      */
     public function delete(User $user, Curriculum $curriculum)
     {
-        //
+        return $user->hasPermissionTo('Curriculum Delete')? true: null;
+    }
+
+    /**
+     * Determine whether the user can duplicate the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Curriculum  $curriculum
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function duplicate(User $user, Curriculum $curriculum)
+    {
+        return $user->hasPermissionTo('Curriculum Duplicate')? true: null;
     }
 
     /**
