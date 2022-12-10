@@ -3,7 +3,7 @@
     <div wire:ignore>
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
             <i class="bi bi-exclamation-triangle me-1"></i>
-            This is a auto saved form. Think before you click
+            This form has auto saved feature. Think before you click.
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     </div>
@@ -35,8 +35,10 @@
         @endforeach
     </div>
 
-    @livewire('curriculum.form.curriculum-course-add-modal-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
-    @livewire('curriculum.form.curriculum-course-clone-other-livewire', ['curriculum_id' => $curriculum_id], key('curriculum.form.curriculum-course-clone-other-livewire'))
+    <div id="div-modals">
+        @livewire('curriculum.form.curriculum-course-add-modal-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
+        @livewire('curriculum.form.curriculum-course-clone-other-livewire', ['curriculum_id' => $curriculum_id], key('curriculum.form.curriculum-course-clone-other-livewire'))
+    </div>
 
     <script>
         function empty_curriculum() {

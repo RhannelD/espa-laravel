@@ -55,6 +55,12 @@
                                     <i class="bi bi-pen-fill"></i>
                                 </a>
                             @endcan
+                            @can('update', $role)
+                                <a href="{{ route('role.permission', ['role'=>$role->id]) }}" 
+                                    class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-key-fill"></i>
+                                </a>
+                            @endcan
                             @can('delete', $role)
                                 <button onclick="delete_record({{ $role->id }})" type="button"
                                     class="btn btn-sm my-0 btn-danger">
@@ -73,7 +79,9 @@
         </div>
     </div>
 
-    @livewire('role.role-form-livewire', key('role-form-livewire'))
+    <div id="div-modals">
+        @livewire('role.role-form-livewire', key('role-form-livewire'))
+    </div>
 
     <script>
         function delete_record(id) {

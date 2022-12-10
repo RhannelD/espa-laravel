@@ -87,7 +87,9 @@
         </div>
     </div>
 
-    @livewire('curriculum.curriculum-duplicate-livewire', key('curriculum-duplicate-livewire'))
+    <div id="div-modals">
+        @livewire('curriculum.curriculum-duplicate-livewire', key('curriculum-duplicate-livewire'))
+    </div>
 
     <script>
         function delete_record(id) {

@@ -69,7 +69,9 @@
         </div>
     </div>
 
-    @livewire('student.student-password-livewire', key('student-password-livewire'))
+    <div id="div-modals">
+        @livewire('student.student-password-livewire', key('student-password-livewire'))
+    </div>
 
     <script>
         function delete_record(id) {

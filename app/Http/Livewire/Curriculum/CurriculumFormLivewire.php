@@ -112,13 +112,9 @@ class CurriculumFormLivewire extends Component
     {
         $data = $this->validate();
 
-        $redirect = isset($this->curriculum_id)
+        isset($this->curriculum_id)
             ? $this->update($data)
             : $this->store($data);
-
-        if ($redirect) {
-            return redirect()->route('curriculum');
-        }
     }
 
     protected function store($data)
@@ -134,7 +130,7 @@ class CurriculumFormLivewire extends Component
                 $curriculum->references()->create($reference);
             }
             $this->session_flash_alert_info('Success!', 'Record has been successfully added');
-            return true;
+            redirect()->route('curriculum.course.form', ['curriculum' => $curriculum->id]);
         }
     }
 
@@ -164,6 +160,6 @@ class CurriculumFormLivewire extends Component
         }
         
         $this->session_flash_alert_info('Success!', 'Record has been successfully updated');
-        return $updated;
+        redirect()->route('curriculum');
     }
 }

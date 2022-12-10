@@ -14,6 +14,7 @@ use App\Http\Livewire\Permission\PermissionLivewire;
 use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Role\RoleLivewire;
+use App\Http\Livewire\Role\RolePermissionLivewire;
 use App\Http\Livewire\Student\StudentFormLivewire;
 use App\Http\Livewire\Student\StudentLivewire;
 use Illuminate\Support\Facades\Auth;
@@ -77,6 +78,8 @@ Route::middleware(['user'])->group(function () {
         Route::get('/permission', PermissionLivewire::class)->name('permission');
 
         Route::get('/role', RoleLivewire::class)->name('role');
+
+        Route::get('/role/{role}/permission', RolePermissionLivewire::class)->name('role.permission');
 
     });
 

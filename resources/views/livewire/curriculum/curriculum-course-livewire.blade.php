@@ -63,5 +63,7 @@
         </div>
     @endforeach
 
-    @livewire('curriculum.curriculum-duplicate-livewire', ['curriculum' => $curriculum_id], key('curriculum-duplicate-livewire'))
+    <div id="div-modals">
+        @livewire('curriculum.curriculum-duplicate-livewire', ['curriculum' => $curriculum_id], key('curriculum-duplicate-livewire'))
+    </div>
 </div>

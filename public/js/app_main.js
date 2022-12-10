@@ -17,3 +17,8 @@ window.addEventListener('modal-toggle', event => {
 window.addEventListener('scroll-to-top', event => {
     window.scrollTo({top: 0, behavior: 'smooth'});
 });
+
+window.addEventListener("turbolinks:load", function(event) {
+    $('.modal').hide();
+    $('.modal-backdrop').remove();
+});

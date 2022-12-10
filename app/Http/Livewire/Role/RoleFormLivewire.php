@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Role;
 
 use App\Traits\AlertTrait;
 use App\Traits\ModalTrait;
+use App\Traits\TurbolinkTrait;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
@@ -64,14 +65,9 @@ class RoleFormLivewire extends Component
     {
         $data = $this->validate();
 
-        $sucess = isset($this->role_id)
+        isset($this->role_id)
             ? $this->update($data)
             : $this->store($data);
-
-        if ($sucess) {
-            $this->hide_modal($this->modal_id);
-            $this->emitUp('refresh');
-        }
     }
 
     protected function store($data)
@@ -83,8 +79,8 @@ class RoleFormLivewire extends Component
         $role = Role::create($data['role']);
     
         if ($role->wasRecentlyCreated) {
-            $this->alert_success('Success!', 'Record has been successfully created');
-            return true;
+            $this->session_flash_alert_success('Success!', 'Record has been successfully created');
+            redirect()->route('role.permission', ['role' => $role->id]);
         }
     }
 
@@ -93,7 +89,8 @@ class RoleFormLivewire extends Component
         $role = Role::find($this->role_id);
         if (Gate::allows('update', $role) && $role->update($data['role'])) {
             $this->alert_success('Success!', 'Record has been successfully updated');
-            return true;
+            $this->hide_modal($this->modal_id);
+            $this->emitUp('refresh');
         }
     }
 }
