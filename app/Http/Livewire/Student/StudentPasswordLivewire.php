@@ -49,11 +49,11 @@ class StudentPasswordLivewire extends Component
     public function render()
     {
         return view('livewire.student.student-password-livewire', [
-            'student_name' => $this->getStudentName(),
+            'user_name' => $this->getUserName(),
         ]);
     }
 
-    protected function getStudentName()
+    protected function getUserName()
     {
         return User::find($this->user_id)->flname?? '';
     }
@@ -71,10 +71,15 @@ class StudentPasswordLivewire extends Component
         $data = $this->validate($rules);
 
         $student = User::find($this->user_id);
-        if (Gate::allows('updatePassword', $student) && $student->update(['password' => Hash::make($data['password'])])) {
+        if ($this->userCanUpdatePassword($student) && $student->update(['password' => Hash::make($data['password'])])) {
             $this->hide_modal($this->modal);
             $this->alert_success('Password Successfully Change');
             $this->reset(['password','user_password']);
         }
+    }
+
+    protected function userCanUpdatePassword($user)
+    {
+        return Gate::allows('updatePassword', $user);
     }
 }

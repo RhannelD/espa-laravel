@@ -103,9 +103,9 @@ class User extends Authenticatable
         });
     }
 
-    public function scopeIsAdmin($query)
+    public function scopeIsOfficer($query)
     {
-        $query->where('usertype', 'admin');
+        $query->whereNull('sr_code');
     }
 
     public function scopeIsStudent($query)

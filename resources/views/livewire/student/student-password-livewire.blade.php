@@ -8,8 +8,8 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-12">
-                        <label for="studentname" class="form-label">Student Name</label>
-                        <input type="text" class="form-control" id="studentname" disabled value="{{ $student_name }}">
+                        <label for="studentname" class="form-label">User Name</label>
+                        <input type="text" class="form-control" id="studentname" disabled value="{{ $user_name }}">
                     </div>
                     <div class="col-12" x-data="{show_password: false}">
                         <label for="password" class="form-label">New Password</label>

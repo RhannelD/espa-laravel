@@ -26,6 +26,15 @@
             </li>
         @endcan
 
+        @can('viewAnyOfficer', \App\Models\User::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='officer']) href="{{ route('officer') }}">
+                    <i class="bi bi-person-square"></i>
+                    <span>Officer</span>
+                </a>
+            </li>
+        @endcan
+
         @can('viewAny', \App\Models\College::class)
             <li class="nav-item">
                 <a @class(['nav-link', 'collapsed' => $active_nav!='college']) href="{{ route('college') }}">

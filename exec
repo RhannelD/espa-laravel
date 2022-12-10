@@ -1,5 +1,33 @@
-php artisan cache:clear
-php artisan route:clear
-php artisan view:clear
-php artisan config:cache
-# php artisan route:cache
+#!/bin/bash
+echo "*****************************"
+echo "* [1] clear all             *"
+echo "* [2] migrate:fresh --seed  *"
+echo "* [3] del debugbar/*.json   *"
+echo "*****************************"
+read -p "Enter choice: " choice
+
+if (( $choice == "1" )); then
+    echo "> artisan cache:clear --------------------"
+    php artisan cache:clear
+
+    echo "> artisan view:clear ---------------------"
+    php artisan view:clear
+
+    echo "> artisan config:cache -------------------"
+    php artisan config:clear
+
+    echo "> artisan route:clear --------------------"
+    php artisan route:clear
+
+    echo "> rm -r storage/debugbar/*.json ----------"
+    rm -r storage/logs/*.log
+
+elif (( $choice == "2" )); then
+    echo "> migrate:fresh --seed -------------------"
+    php artisan migrate:fresh --seed
+
+elif (( $choice == "3" )); then
+    echo "> rm -r storage/debugbar/*.json ----------"
+    rm -r storage/debugbar/*.json
+
+fi

@@ -101,6 +101,14 @@ class RoleSeeder extends Seeder
                 'Curriculum Duplicate',
                 'Curriculum Update Course',
             ],
+            'Officer' => [
+                'Officer List',
+                'Officer View',
+                'Officer Create',
+                'Officer Update',
+                'Officer Password Update',
+                'Officer Delete',
+            ],
             'Role' => [
                 'Role List',
                 'Role View',
