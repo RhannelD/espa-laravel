@@ -43,9 +43,7 @@
                             @if ($role->name == 'Super Admin')
                                 All Permission
                             @else
-                                @foreach ($role->permissions as $permission)
-                                    {{ $permission->name }}{{ !$loop->last? ',': '' }}{{ ($loop->last && $role->permissions_count>6)? ',...': '' }}
-                                @endforeach
+                                {{ $role->permissions()->limit(3)->get()->implode('name', ', ') }}{{ ($role->permissions_count>3)? ', ...': '' }}
                             @endif
                         </td>
                         <td class="text-center py-1 text-nowrap">

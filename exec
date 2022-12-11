@@ -3,6 +3,7 @@ echo "*****************************"
 echo "* [1] clear all             *"
 echo "* [2] migrate:fresh --seed  *"
 echo "* [3] del debugbar/*.json   *"
+echo "* [4] artisan serve         *"
 echo "*****************************"
 read -p "Enter choice: " choice
 
@@ -29,5 +30,9 @@ elif (( $choice == "2" )); then
 elif (( $choice == "3" )); then
     echo "> rm -r storage/debugbar/*.json ----------"
     rm -r storage/debugbar/*.json
+
+elif (( $choice == "4" )); then
+    echo "> artisan serve --------------------------"
+    php artisan serve --host='localhost' --port='8009'
 
 fi

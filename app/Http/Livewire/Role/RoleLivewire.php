@@ -63,11 +63,6 @@ class RoleLivewire extends Component
     {
         return Role::query()
             ->withCount('permissions')
-            ->with([
-                'permissions' => function ($query) {
-                    $query->limit(6);
-                },
-            ])
             ->where('name', 'like', "%$this->search%")
             ->paginate($this->showRow);
     }
