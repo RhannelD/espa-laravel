@@ -26,6 +26,7 @@ class RoleLivewire extends Component
 
     protected $listeners = [
         'refresh' => '$refresh',
+        'searching' => '$refresh',
     ];
 
     public function mount()

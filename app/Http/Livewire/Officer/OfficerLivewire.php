@@ -16,6 +16,10 @@ class OfficerLivewire extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
+    protected $listeners = [
+        'searching' => '$refresh',
+    ];
+
     public $search, $showRow = 10;
 
     protected $queryString = [

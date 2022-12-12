@@ -18,6 +18,10 @@ class CurriculumLivewire extends Component
 
     public $search, $showRow = 10;
 
+    protected $listeners = [
+        'searching' => '$refresh',
+    ];
+
     protected $queryString = [
         'search' => ['except' => ''],
         'showRow' => ['except' => 10, 'as' => 'row'],
