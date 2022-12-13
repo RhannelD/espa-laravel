@@ -30,12 +30,12 @@ class StudentLivewire extends Component
 
     public function mount()
     {
-        $this->authorize('viewAny', User::class);
+        $this->authorize('viewAnyStudent', User::class);
     }
 
     public function hydrate()
     {
-        if (Gate::denies('viewAny', User::class)) {
+        if (Gate::denies('viewAnyStudent', User::class)) {
             return redirect(url()->previous());
         }
     }
@@ -70,7 +70,7 @@ class StudentLivewire extends Component
     public function delete($id)
     {
         $user = User::find($id);
-        if (Gate::allows('delete', $user) && $user->delete()) {
+        if (Gate::allows('deleteStudent', $user) && $user->delete()) {
             $this->alert_success('Record Deleted!');
         }
     }

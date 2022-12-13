@@ -80,6 +80,6 @@ class StudentPasswordLivewire extends Component
 
     protected function userCanUpdatePassword($user)
     {
-        return Gate::allows('updatePassword', $user);
+        return Gate::allows('updateStudentPassword', $user);
     }
 }

@@ -10,14 +10,14 @@ class UserPolicy
     use HandlesAuthorization;
 
     /**
-     * Determine whether the user can view any models.
+     * Determine whether the user can view any student models.
      *
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user)
+    public function viewAnyStudent(User $user)
     {
-        //
+        return $user->hasPermissionTo('Student List')? true: null;
     }
 
     /**
@@ -27,9 +27,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, User $model)
+    public function viewStudent(User $user, User $model)
     {
-        //
+        return $user->hasPermissionTo('Student View')? true: null;
     }
 
     /**
@@ -38,9 +38,9 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function createStudent(User $user)
     {
-        //
+        return $user->hasPermissionTo('Student Create')? true: null;
     }
 
     /**
@@ -50,9 +50,15 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $model)
+    public function updateStudent(User $user, User $model)
     {
-        return $user->id == $model->id? true: null;
+        return $user->id == $model->id
+            ? true
+            : (
+                $user->hasPermissionTo('Officer Update')
+                    ? true
+                    : null
+            );
     }
 
     /**
@@ -62,9 +68,15 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function updatePassword(User $user, User $model)
+    public function updateStudentPassword(User $user, User $model)
     {
-        return $user->id == $model->id? true: null;
+        return $user->id == $model->id
+            ? true
+            : (
+                $user->hasPermissionTo('Officer Update')
+                    ? true
+                    : null
+            );
     }
 
     /**
@@ -74,9 +86,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model)
+    public function deleteStudent(User $user, User $model)
     {
-        return !$model->isSuserAdmin;
+        return $user->hasPermissionTo('Student Delete')? true: null;
     }
 
     /**

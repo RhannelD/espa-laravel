@@ -3,19 +3,23 @@
         $active_nav = $active_nav??'';
     @endphp
     <ul class="sidebar-nav" id="sidebar-nav">
-        <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='dashboard']) href="{{ route('dashboard') }}">
-                <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
-            </a>
-        </li>
+        @can('viewAnyDashboard')
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='dashboard']) href="{{ route('dashboard') }}">
+                    <i class="bi bi-grid"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+        @endcan
 
-        <li class="nav-item">
-            <a @class(['nav-link', 'collapsed' => $active_nav!='student']) href="{{ route('student') }}">
-                <i class="bi bi-person-badge"></i>
-                <span>Student</span>
-            </a>
-        </li>
+        @can('viewAnyStudent', \App\Models\User::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='student']) href="{{ route('student') }}">
+                    <i class="bi bi-person-badge"></i>
+                    <span>Student</span>
+                </a>
+            </li>
+        @endcan
 
         @can('viewAny', \App\Models\Curriculum::class)
             <li class="nav-item">

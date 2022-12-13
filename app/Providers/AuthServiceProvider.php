@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Policies\DashboardPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -25,6 +26,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->registerPolicies();
+
+        Gate::define('viewAnyDashboard', [DashboardPolicy::class, 'viewAnyDashboard']);
 
         Gate::after(function ($user, $ability) {
             return $user->hasRole('Super Admin');

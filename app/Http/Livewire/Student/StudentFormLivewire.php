@@ -35,7 +35,7 @@ class StudentFormLivewire extends Component
         $user = User::find($user_id);
 
         abort_if(isset($user_id) && is_null($user), 404);
-        $this->authorize(is_null($user_id)? 'create': 'update', is_null($user_id)? User::class: $user);
+        $this->authorize(is_null($user_id)? 'createStudent': 'updateStudent', is_null($user_id)? User::class: $user);
 
         $this->user = $user? $user->replicate(): new User;
     }
@@ -77,7 +77,7 @@ class StudentFormLivewire extends Component
 
     protected function store($data)
     {
-        if ( Gate::denies('create', User::class) ) {
+        if ( Gate::denies('createStudent', User::class) ) {
             return;
         }
         
@@ -94,7 +94,7 @@ class StudentFormLivewire extends Component
     protected function update($data)
     {
         $user = User::find($this->user_id);
-        if ( Gate::allows('update', $user) && $user->update($data['user']) ) {
+        if ( Gate::allows('updateStudent', $user) && $user->update($data['user']) ) {
             $this->session_flash_alert_info('Success!', 'Record has been successfully updated');
             return true;
         }

@@ -24,6 +24,8 @@ class RoleSeeder extends Seeder
             [
                 'role' => ['name' => 'College Dean'],
                 'permissions' => [
+                    'Dashboard Page',
+
                     'Program List',
                     'Program View',
                     'Program Create',
@@ -34,6 +36,8 @@ class RoleSeeder extends Seeder
             [
                 'role' => ['name' => 'Program Chairperson'],
                 'permissions' => [
+                    'Dashboard Page',
+
                     'Course List',
                     'Course View',
                     'Course Create',
@@ -63,13 +67,8 @@ class RoleSeeder extends Seeder
     public function createPermissions()
     {
         $permission_list = [
-            'User' => [
-                'User List',
-                'User View',
-                'User Create',
-                'User Update',
-                'User Update Password',
-                'User Delete',
+            'Dashboard' => [
+                'Dashboard Page',
             ],
             'Course' => [
                 'Course List',
@@ -108,6 +107,14 @@ class RoleSeeder extends Seeder
                 'Officer Update',
                 'Officer Password Update',
                 'Officer Delete',
+            ],
+            'Student' => [
+                'Student List',
+                'Student View',
+                'Student Create',
+                'Student Update',
+                'Student Password Update',
+                'Student Delete',
             ],
             'Role' => [
                 'Role List',

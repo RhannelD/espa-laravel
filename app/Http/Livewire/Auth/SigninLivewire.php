@@ -2,9 +2,10 @@
 
 namespace App\Http\Livewire\Auth;
 
-use Livewire\Component;
+use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Traits\AlertTrait;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
 
 class SigninLivewire extends Component
 {
@@ -34,7 +35,7 @@ class SigninLivewire extends Component
         $credentials = $this->validate();
 
         if (Auth::attempt($credentials, $this->rememberme)) {
-            return redirect()->intended('student');
+            return RedirectIfAuthenticated::redirectToPanel(Auth::user());
         }
 
         $this->reset('password');
