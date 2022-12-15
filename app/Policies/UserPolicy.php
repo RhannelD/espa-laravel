@@ -147,7 +147,7 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can update the password.
+     * Determine whether the user can update the role and access of the user.
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\User  $model
@@ -165,6 +165,24 @@ class UserPolicy
                             ? true
                             : null
                     )
+            );
+    }
+
+    /**
+     * Determine whether the user can update the password.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function updateOfficerRoleAccess(User $user, User $model)
+    {
+        return ($user->id == $model->id || $user->is_student || $model->hasRole('Super Admin'))
+            ? false
+            : (
+                $user->hasPermissionTo('Officer Role Permission Update')
+                    ? true
+                    : null
             );
     }
 

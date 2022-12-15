@@ -106,6 +106,7 @@ class RoleSeeder extends Seeder
                 'Officer Create',
                 'Officer Update',
                 'Officer Password Update',
+                'Officer Role Permission Update',
                 'Officer Delete',
             ],
             'Student' => [

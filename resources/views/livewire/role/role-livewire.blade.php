@@ -46,7 +46,7 @@
                         @can('update', $role)
                             <a href="{{ route('role.permission', ['role'=>$role->id]) }}" 
                                 class="btn btn-sm my-0 btn-primary">
-                                <i class="bi bi-key-fill"></i>
+                                <i class="bi bi-code"></i>
                             </a>
                         @endcan
                         @can('delete', $role)

@@ -46,6 +46,11 @@
                                     <i class="bi bi-pen-fill"></i>
                                 </a>
                             @endcan
+                            @can('updateOfficerRoleAccess', $officer)
+                                <a href="{{ route('officer.role.permission', [$officer->id]) }}" class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-code"></i>
+                                </a>
+                            @endcan
                             @can('updateOfficerPassword', $officer)
                                 <button wire:click="$emitTo('officer.officer-password-livewire', 'edit', {{ $officer->id }})" type="button" class="btn btn-sm my-0 btn-dark">
                                     <i class="bi bi-key-fill"></i>

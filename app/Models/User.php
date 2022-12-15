@@ -65,12 +65,12 @@ class User extends Authenticatable
 
     public function getIsSuperAdminAttribute()
     {
-        return $user->hasRole('Super Admin');
+        return $this->hasRole('Super Admin');
     }
 
     public function getIsStudentAttribute()
     {
-        return !is_null($user->sr_code);
+        return !is_null($this->sr_code);
     }
 
     # relationships ----------------------------------------------------
