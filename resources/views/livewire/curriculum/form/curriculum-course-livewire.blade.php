@@ -55,5 +55,20 @@
 				}
             });
         }
+
+        function delete_curriculum_course(id) {
+            swal({
+				title: 'Remove this Course?',
+				text: 'You will not be able to recover it',
+				icon: 'warning',
+				buttons: true,
+				dangerMode: true,
+                buttons: ['Cancel', 'Yes, Remove It'],
+            }).then((agree) => {
+				if (agree) {
+                    @this.delete_curriculum_course(id);
+				}
+            });
+        }
     </script>
 </div>

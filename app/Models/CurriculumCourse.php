@@ -28,11 +28,13 @@ class CurriculumCourse extends Model
         'course_id',
         'year',
         'semester',
+        'requisite_standing',
     ];
 
     protected $attributes = [
         'year' => 1,
         'semester' => 1,
+        'requisite_standing' => '',
     ];
 
     // protected $casts = [

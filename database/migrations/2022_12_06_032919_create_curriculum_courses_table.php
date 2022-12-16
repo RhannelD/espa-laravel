@@ -19,6 +19,7 @@ class CreateCurriculumCoursesTable extends Migration
             $table->foreignId('course_id');
             $table->integer('year');
             $table->integer('semester');
+            $table->string('requisite_standing');
             $table->timestamps();
             
             $table->foreign('curriculum_id')->references('id')->on('curricula')->onDelete('cascade');

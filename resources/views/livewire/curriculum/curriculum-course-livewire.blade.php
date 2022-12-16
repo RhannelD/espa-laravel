@@ -34,6 +34,7 @@
                         <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Unit</th>
                         <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lec</th>
                         <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lab</th>
+                        <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Requisite Standing</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -53,6 +54,9 @@
                             </td>
                             <td scope="row" class="text-center">
                                 {{ $curriculum_course->course->laboratory }}
+                            </td>
+                            <td scope="row">
+                                {{ $curriculum_course->requisite_standing }}
                             </td>
                         </tr>
                     @endforeach

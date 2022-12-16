@@ -36,10 +36,10 @@ class CurriculumCourseSemesterLivewire extends Component
     protected function getCurriculumCourses()
     {
         return CurriculumCourse::query()
-            ->with('course')
             ->where('curriculum_id', $this->curriculum_id)
             ->where('year', $this->year)
             ->where('semester', $this->semester)
+            ->toBase()
             ->get();
     }
 }

@@ -11,7 +11,7 @@ use Livewire\Component;
 class CurriculumCourseLivewire extends Component
 {
     use AuthorizesRequests;
-    
+
     public $curriculum_id;
 
     public function mount(Curriculum $curriculum)
@@ -59,6 +59,15 @@ class CurriculumCourseLivewire extends Component
             $curriculum->courses()->delete();
 
             $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
+        }
+    }
+
+    public function delete_curriculum_course($curriculum_course_id)
+    {
+        $curriculum_course = CurriculumCourse::find($curriculum_course_id);
+        if (isset($curriculum_course) && Gate::allows('update', $curriculum_course->curriculum)) {
+            $this->emit("refresh_{$curriculum_course->year}y_{$curriculum_course->semester}s_courses");
+            $curriculum_course->delete();
         }
     }
 }

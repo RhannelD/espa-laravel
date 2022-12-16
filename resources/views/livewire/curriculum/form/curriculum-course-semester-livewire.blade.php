@@ -21,27 +21,13 @@
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Unit</th>
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lec</th>
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lab</th>
+                <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Requisite Standing</th>
+                <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($curriculum_courses as $curriculum_course)
-                <tr id="r-{{ $curriculum_course->id }}">
-                    <td scope="row">
-                        {{ $curriculum_course->course->code }}
-                    </td>
-                    <td scope="row">
-                        {{ $curriculum_course->course->course }}
-                    </td>
-                    <td scope="row" class="text-center">
-                        {{ $curriculum_course->course->unit }}
-                    </td>
-                    <td scope="row" class="text-center">
-                        {{ $curriculum_course->course->lecture }}
-                    </td>
-                    <td scope="row" class="text-center">
-                        {{ $curriculum_course->course->laboratory }}
-                    </td>
-                </tr>
+                @livewire('curriculum.form.curriculum-course-semester-course-livewire', ['curriculum_course' => $curriculum_course->id], key("curriculum-course-semester-course-livewire-{$curriculum_course->id}"))
             @endforeach
         </tbody>
     </x-table.table>
