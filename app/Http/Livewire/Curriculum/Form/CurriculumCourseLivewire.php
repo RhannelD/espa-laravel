@@ -67,6 +67,14 @@ class CurriculumCourseLivewire extends Component
         $curriculum_course = CurriculumCourse::find($curriculum_course_id);
         if (isset($curriculum_course) && Gate::allows('update', $curriculum_course->curriculum)) {
             $this->emit("refresh_{$curriculum_course->year}y_{$curriculum_course->semester}s_courses");
+
+            foreach ($curriculum_course->prerequisite_curriculum_courses as $prerequisite_curriculum_course) {
+                $this->emit("refresh_curriculum_course_{$prerequisite_curriculum_course->id}");
+            }
+            foreach ($curriculum_course->corequisite_curriculum_courses as $corequisite_curriculum_course) {
+                $this->emit("refresh_curriculum_course_{$corequisite_curriculum_course->id}");
+            }
+
             $curriculum_course->delete();
         }
     }

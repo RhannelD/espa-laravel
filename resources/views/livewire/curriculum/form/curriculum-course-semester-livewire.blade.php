@@ -21,6 +21,8 @@
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Unit</th>
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lec</th>
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lab</th>
+                <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Pre-Requisite/s</th>
+                <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Co-Requisite/s</th>
                 <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Requisite Standing</th>
                 <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Action</th>
             </tr>

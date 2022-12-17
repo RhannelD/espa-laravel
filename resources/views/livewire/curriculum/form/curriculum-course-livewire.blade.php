@@ -38,6 +38,7 @@
     <div id="div-modals">
         @livewire('curriculum.form.curriculum-course-add-modal-livewire', ['curriculum_id' => $curriculum_id], key('curriculum-course-add-modal-livewire'))
         @livewire('curriculum.form.curriculum-course-clone-other-livewire', ['curriculum_id' => $curriculum_id], key('curriculum.form.curriculum-course-clone-other-livewire'))
+        @livewire('curriculum.form.curriculum-course-add-prerequisite-modal-livewire', key('curriculum-course-add-prerequisite-modal-livewire'))
     </div>
 
     <script>

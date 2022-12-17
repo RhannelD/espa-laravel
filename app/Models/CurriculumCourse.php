@@ -22,7 +22,7 @@ class CurriculumCourse extends Model
         9 => 'Ninth',
         10 => 'Tenth',
     ];
-    
+
     protected $fillable = [
         'curriculum_id',
         'course_id',
@@ -65,9 +65,27 @@ class CurriculumCourse extends Model
         return $this->belongsTo(Course::class, 'course_id', 'id');
     }
 
+    public function corequisite_curriculum_courses()
+    {
+        return $this->belongsToMany(CurriculumCourse::class, 'curriculum_course_prerequisites', 'prerequisite_cc_id', 'corequisite_cc_id');
+    }
+
+    public function prerequisite_curriculum_courses()
+    {
+        return $this->belongsToMany(CurriculumCourse::class, 'curriculum_course_prerequisites', 'corequisite_cc_id', 'prerequisite_cc_id');
+    }
+
+    public function curriculum_course_corequisites()
+    {
+        return $this->hasMany(CurriculumCoursePrerequisite::class, 'prerequisite_cc_id', 'id');
+    }
+
+    public function curriculum_course_prerequisites()
+    {
+        return $this->hasMany(CurriculumCoursePrerequisite::class, 'corequisite_cc_id', 'id');
+    }
+
     # scopes -----------------------------------------------------------
-
-
 
     # custom functions --------------------------------------------------
 
@@ -80,6 +98,6 @@ class CurriculumCourse extends Model
     public static function getSemesterString($semester)
     {
         $number_string_ordinals = self::NUMBERTOSTRINGORDINALS;
-        return $semester==3? 'Summer': "{$number_string_ordinals[$semester]} Semester";
+        return $semester == 3 ? 'Summer' : "{$number_string_ordinals[$semester]} Semester";
     }
 }

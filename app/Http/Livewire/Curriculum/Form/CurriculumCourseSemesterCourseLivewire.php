@@ -39,7 +39,15 @@ class CurriculumCourseSemesterCourseLivewire extends Component
     public function getCurriculumCourse()
     {
         return CurriculumCourse::query()
-            ->with('course')
+            ->with([
+                'course',
+                'prerequisite_curriculum_courses' => function ($query) {
+                    $query->with('course');
+                },
+                'corequisite_curriculum_courses' => function ($query) {
+                    $query->with('course');
+                },
+            ])
             ->whereId($this->curriculum_course_id)
             ->first();
     }
