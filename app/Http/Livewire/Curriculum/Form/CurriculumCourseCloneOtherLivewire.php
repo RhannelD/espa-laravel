@@ -72,10 +72,25 @@ class CurriculumCourseCloneOtherLivewire extends Component
             return;
         }
 
+        $toRefreshSemesters = $curriculum->courses()
+            ->select('year', 'semester')
+            ->groupBy('year')
+            ->groupBy('semester')
+            ->toBase()
+            ->get();
+
         $curriculum->courses()->delete();
 
-        $curriculum_duplicating->courses()->orderBy('year')->orderBy('semester')->chunkById(20, function ($curriculum_courses) use ($curriculum) {
-            $curriculum_courses->each(function ($curriculum_course) use ($curriculum) {
+        $curriculum_duplicating->courses()->orderBy('year')->orderBy('semester')->chunkById(20, function ($curriculum_courses) use ($curriculum, $toRefreshSemesters) {
+            $curriculum_courses->each(function ($curriculum_course) use ($curriculum, $toRefreshSemesters) {
+                $toRefreshSemesterExist = $toRefreshSemesters->where('year', $curriculum_course->year)->where('semester', $curriculum_course->semester)->first();
+                if (is_null($toRefreshSemesterExist)) {
+                    $toRefreshSemesters->push((object) [
+                        'year' => $curriculum_course->year,
+                        'semester' => $curriculum_course->semester,
+                    ]);
+                }
+
                 $curriculum_course = $curriculum_course->duplicate();
                 $curriculum_course->update(['curriculum_id' => $curriculum->id]);
 
@@ -97,6 +112,9 @@ class CurriculumCourseCloneOtherLivewire extends Component
 
         $this->alert_success('Curriculum Courses Duplication Successfully');
         $this->hide_modal($this->modal_id);
-        $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
+
+        $toRefreshSemesters->each(function($toRefreshSemester) {
+            $this->emitTo('curriculum.form.curriculum-course-semester-livewire', "refresh_{$toRefreshSemester->year}y_{$toRefreshSemester->semester}s_courses");
+        });
     }
 }

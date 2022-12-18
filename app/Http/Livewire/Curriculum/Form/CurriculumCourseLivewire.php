@@ -56,9 +56,17 @@ class CurriculumCourseLivewire extends Component
     {
         $curriculum = Curriculum::find($this->curriculum_id);
         if (Gate::allows('update', $curriculum)) {
-            $curriculum->courses()->delete();
+            $curriculum->courses()
+                ->select('year', 'semester')
+                ->groupBy('year')
+                ->groupBy('semester')
+                ->toBase()
+                ->get()
+                ->each(function ($curriculumCourse) {
+                    $this->emitTo('curriculum.form.curriculum-course-semester-livewire', "refresh_{$curriculumCourse->year}y_{$curriculumCourse->semester}s_courses");
+                });
 
-            $this->emitTo('curriculum.form.curriculum-course-semester-livewire', 'refresh');
+            $curriculum->courses()->delete();
         }
     }
 
