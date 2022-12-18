@@ -40,6 +40,10 @@ class CurriculumCourse extends Model
     // protected $casts = [
     //     'date_at'  => 'date:Y-m-d',
     // ];
+    
+    protected $cloneable_relations = [
+        'curriculum_course_prerequisites'
+    ];
 
     # attributes -------------------------------------------------------
 

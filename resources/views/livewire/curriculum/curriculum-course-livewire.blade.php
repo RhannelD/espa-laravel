@@ -34,6 +34,8 @@
                         <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Unit</th>
                         <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lec</th>
                         <th scope="col" class="text-center" style="width: 5%; min-width: 40px;">Lab</th>
+                        <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Pre-Requisite/s</th>
+                        <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Co-Requisite/s</th>
                         <th scope="col" class="text-center" style="width: 5%; min-width: 180px;">Requisite Standing</th>
                     </tr>
                 </thead>
@@ -54,6 +56,12 @@
                             </td>
                             <td scope="row" class="text-center">
                                 {{ $curriculum_course->course->laboratory }}
+                            </td>
+                            <td scope="row" class="text-center">
+                                {{ $curriculum_course->prerequisite_curriculum_courses->pluck('course.code')->implode(', ') }}
+                            </td>
+                            <td scope="row" class="text-center">
+                                {{ $curriculum_course->corequisite_curriculum_courses->pluck('course.code')->implode(', ') }}
                             </td>
                             <td scope="row">
                                 {{ $curriculum_course->requisite_standing }}

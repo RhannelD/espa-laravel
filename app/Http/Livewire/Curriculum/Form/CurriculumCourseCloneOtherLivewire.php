@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Curriculum\Form;
 use App\Models\Curriculum;
 use App\Traits\AlertTrait;
 use App\Traits\ModalTrait;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -58,7 +59,7 @@ class CurriculumCourseCloneOtherLivewire extends Component
 
     public function duplicate($duplicate_curriculum_id)
     {
-        $curriculum_duplicating = Curriculum::find($duplicate_curriculum_id); 
+        $curriculum_duplicating = Curriculum::find($duplicate_curriculum_id);
         if (Gate::denies('duplicate', $curriculum_duplicating)) {
             $this->alert_error('You dont have permission!');
             return;
@@ -73,9 +74,24 @@ class CurriculumCourseCloneOtherLivewire extends Component
 
         $curriculum->courses()->delete();
 
-        $curriculum_duplicating->courses()->chunkById(20, function($curriculum_courses) use ($curriculum_id) {
-            $curriculum_courses->each(function ($curriculum_course) use ($curriculum_id) {
-                $curriculum_course->replicate()->fill(['curriculum_id'=>$curriculum_id])->save();
+        $curriculum_duplicating->courses()->orderBy('year')->orderBy('semester')->chunkById(20, function ($curriculum_courses) use ($curriculum) {
+            $curriculum_courses->each(function ($curriculum_course) use ($curriculum) {
+                $curriculum_course = $curriculum_course->duplicate();
+                $curriculum_course->update(['curriculum_id' => $curriculum->id]);
+
+                $curriculum_course->curriculum_course_prerequisites->each(function ($duplicatedCurriculumCoursePrerequisite) use ($curriculum) {
+                    // Querying the right Pre-Requisite for the Duplicated Curriculum Course
+                    $duplicatedCurriculumCourseMustPrerequisite = $curriculum->courses()
+                        ->where('course_id', $duplicatedCurriculumCoursePrerequisite->prerequisite_curriculum_course->course_id)
+                        ->first();
+
+                    // Updating the right Pre-Requisite for the Duplicated Curriculum Course
+                    if (isset($duplicatedCurriculumCourseMustPrerequisite)) {
+                        $duplicatedCurriculumCoursePrerequisite->update([
+                            'prerequisite_cc_id' => $duplicatedCurriculumCourseMustPrerequisite->id,
+                        ]);
+                    }
+                });
             });
         });
 
