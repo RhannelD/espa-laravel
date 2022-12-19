@@ -80,6 +80,11 @@ class User extends Authenticatable
         return $this->hasOne(Student::class, 'user_id', 'id');
     }
 
+    public function curriculum()
+    {
+        return $this->hasOneThrough(Curriculum::class, Student::class, 'user_id', 'id', 'id', 'curriculum_id');
+    }
+
     # scopes -----------------------------------------------------------
 
     public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)

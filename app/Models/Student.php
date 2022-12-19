@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'user_id',
+        'curriculum_id',
     ];
 
     // protected $attributes = [
@@ -23,8 +24,6 @@ class Student extends Model
 
     # attributes -------------------------------------------------------
 
-
-
     # relationships ----------------------------------------------------
 
     public function user()
@@ -32,11 +31,13 @@ class Student extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
+    public function curriculum()
+    {
+        return $this->belongsTo(Curriculum::class, 'curriculum_id', 'id');
+    }
+
     # scopes -----------------------------------------------------------
 
-
-
     # custom functions --------------------------------------------------
-
 
 }

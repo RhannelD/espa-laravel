@@ -11,8 +11,8 @@ class Curriculum extends Model
     use \Bkwld\Cloner\Cloneable;
 
     const SEARCHFILTERS = [
-        'track', 
-        'academic_year', 
+        'track',
+        'academic_year',
     ];
 
     protected $fillable = [
@@ -40,7 +40,7 @@ class Curriculum extends Model
 
     public function getAcademicYearsAttribute()
     {
-        return $this->academic_year . " - " . ($this->academic_year+1);
+        return $this->academic_year . " - " . ($this->academic_year + 1);
     }
 
     # relationships ----------------------------------------------------
@@ -58,6 +58,16 @@ class Curriculum extends Model
     public function courses()
     {
         return $this->hasMany(CurriculumCourse::class, 'curriculum_id', 'id');
+    }
+
+    public function students()
+    {
+        return $this->hasMany(Student::class, 'curriculum_id', 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'students', 'curriculum_id', 'user_id');
     }
 
     # scopes -----------------------------------------------------------

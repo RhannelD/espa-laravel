@@ -16,9 +16,11 @@ class CreateStudentsTable extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
+            $table->foreignId('curriculum_id');
             $table->timestamps();
             
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('curriculum_id')->references('id')->on('curricula')->onDelete('cascade');
         });
     }
 
