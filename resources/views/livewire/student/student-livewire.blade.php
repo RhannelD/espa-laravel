@@ -42,6 +42,9 @@
                             <a href="{{ route('student.form', [$student->id]) }}" class="btn btn-sm my-0 btn-primary">
                                 <i class="bi bi-pen-fill"></i>
                             </a>
+                            <a href="{{ route('student.curriculum', [$student->id]) }}" class="btn btn-sm my-0 btn-primary">
+                                <i class="bi bi-file-medical"></i>
+                            </a>
                             <button wire:click="$emitTo('student.student-password-livewire', 'edit', {{ $student->id }})" type="button" class="btn btn-sm my-0 btn-dark">
                                 <i class="bi bi-key-fill"></i>
                             </button>

@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Livewire\Student\Curriculum;
+
+use App\Models\Curriculum;
+use App\Models\User;
+use Livewire\Component;
+
+class StudentCurriculumLivewire extends Component
+{
+    public $user_id;
+
+    public function mount(User $user)
+    {
+        abort_unless($user->isStudent, 403);
+
+        $this->user_id = $user->id;
+    }
+
+    public function render()
+    {
+        return view('livewire.student.curriculum.student-curriculum-livewire', [
+            'user' => $this->getUser(),
+            'curriculum' => $this->getCurriculum(),
+        ])->extends('layouts.app', [
+            'active_nav' => 'curriculum',
+            'title' => "Student Curriculum",
+            'breadcrumbs' => [
+                [
+                    'link' => route('student'),
+                    'label' => 'Student',
+                ], [
+                    'label' => 'Curriculum',
+                    'active' => true,
+                ],
+            ],
+        ]);
+    }
+
+    protected function getUser()
+    {
+        return User::find($this->user_id);
+    }
+
+    protected function getCurriculum()
+    {
+        $user_id = $this->user_id;
+
+        return Curriculum::query()
+            ->with([
+                'program',
+                'references',
+                'courses' => function ($query) {
+                    $query->groupBy('year')
+                        ->groupBy('semester')
+                        ->orderBy('year')
+                        ->orderBy('semester');
+                },
+            ])
+            ->whereHas('users', function ($query) use ($user_id) {
+                $query->where('users.id', $user_id);
+            })
+            ->first();
+    }
+}

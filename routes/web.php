@@ -18,6 +18,7 @@ use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Role\RoleLivewire;
 use App\Http\Livewire\Role\RolePermissionLivewire;
+use App\Http\Livewire\Student\Curriculum\StudentCurriculumLivewire;
 use App\Http\Livewire\Student\StudentFormLivewire;
 use App\Http\Livewire\Student\StudentLivewire;
 use Illuminate\Support\Facades\Auth;
@@ -55,14 +56,20 @@ Route::middleware(['user'])->group(function () {
     Route::get('/program', ProgramLivewire::class)->name('program');
 
     Route::get('/program/form/{program_id?}', ProgramFormLivewire::class)->name('program.form');
-
-    Route::get('/student', StudentLivewire::class)->name('student');
-
-    Route::get('/student/form/{user_id?}', StudentFormLivewire::class)->name('student.form');
     
     Route::get('/course', CourseLivewire::class)->name('course');
 
     Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
+
+    Route::prefix('/student')->group(function () {
+
+        Route::get('/', StudentLivewire::class)->name('student');
+        
+        Route::get('/form/{user_id?}', StudentFormLivewire::class)->name('student.form');
+
+        Route::get('/{user}/curriculum', StudentCurriculumLivewire::class)->name('student.curriculum');
+
+    });
 
     Route::prefix('/officer')->group(function () {
 
