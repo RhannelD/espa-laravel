@@ -50,11 +50,8 @@ class StudentCurriculumLivewire extends Component
             ->with([
                 'program',
                 'references',
-                'courses' => function ($query) {
-                    $query->groupBy('year')
-                        ->groupBy('semester')
-                        ->orderBy('year')
-                        ->orderBy('semester');
+                'courses.course.grades' => function ($query) use ($user_id) {
+                    $query->where('user_id', $user_id);
                 },
             ])
             ->whereHas('users', function ($query) use ($user_id) {

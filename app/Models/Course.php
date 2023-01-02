@@ -39,6 +39,11 @@ class Course extends Model
         return $this->hasMany(CurriculumCourse::class, 'course_id', 'id');
     }
 
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'course_id', 'id');
+    }
+
     # scopes -----------------------------------------------------------
 
     public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)

@@ -85,6 +85,11 @@ class User extends Authenticatable
         return $this->hasOneThrough(Curriculum::class, Student::class, 'user_id', 'id', 'id', 'curriculum_id');
     }
 
+    public function grades()
+    {
+        return $this->hasMany(Grade::class, 'user_id', 'id');
+    }
+
     # scopes -----------------------------------------------------------
 
     public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)
