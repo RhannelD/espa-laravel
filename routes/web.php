@@ -19,6 +19,7 @@ use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Role\RoleLivewire;
 use App\Http\Livewire\Role\RolePermissionLivewire;
 use App\Http\Livewire\Student\Curriculum\StudentCurriculumLivewire;
+use App\Http\Livewire\Student\Grade\StudentCurriculumLivewire as StudentCurriculumGradeLivewire;
 use App\Http\Livewire\Student\StudentFormLivewire;
 use App\Http\Livewire\Student\StudentLivewire;
 use Illuminate\Support\Facades\Auth;
@@ -33,30 +34,30 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
-Route::get('/', function () { return redirect()->route('signin'); })->name('index');
+Route::get('/', function () {return redirect()->route('signin');})->name('index');
 
-Route::get('/signout', function () { Auth::logout(); return redirect()->route('index'); })->name('signout');
+Route::get('/signout', function () {Auth::logout();return redirect()->route('index');})->name('signout');
 
 Route::middleware(['guest'])->group(function () {
-    
+
     Route::get('/signin', SigninLivewire::class)->name('signin');
-    
+
 });
 
 Route::middleware(['user'])->group(function () {
-    
+
     Route::get('/dashboard', DashboardLivewire::class)->name('dashboard');
 
     Route::get('/college', CollegeLivewire::class)->name('college');
-    
+
     Route::get('/college/form/{college_id?}', CollegeFormLivewire::class)->name('college.form');
-    
+
     Route::get('/program', ProgramLivewire::class)->name('program');
 
     Route::get('/program/form/{program_id?}', ProgramFormLivewire::class)->name('program.form');
-    
+
     Route::get('/course', CourseLivewire::class)->name('course');
 
     Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
@@ -64,10 +65,12 @@ Route::middleware(['user'])->group(function () {
     Route::prefix('/student')->group(function () {
 
         Route::get('/', StudentLivewire::class)->name('student');
-        
+
         Route::get('/form/{user_id?}', StudentFormLivewire::class)->name('student.form');
 
         Route::get('/{user}/curriculum', StudentCurriculumLivewire::class)->name('student.curriculum');
+
+        Route::get('/{user}/curriculum/grade/form', StudentCurriculumGradeLivewire::class)->name('student.curriculum.grade');
 
     });
 

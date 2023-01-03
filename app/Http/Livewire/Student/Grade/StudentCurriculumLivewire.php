@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire\Student\Curriculum;
+namespace App\Http\Livewire\Student\Grade;
 
 use App\Models\Curriculum;
 use App\Models\User;
@@ -19,18 +19,21 @@ class StudentCurriculumLivewire extends Component
 
     public function render()
     {
-        return view('livewire.student.curriculum.student-curriculum-livewire', [
+        return view('livewire.student.grade.student-curriculum-livewire', [
             'user' => $this->getUser(),
             'curriculum' => $this->getCurriculum(),
         ])->extends('layouts.app', [
             'active_nav' => 'student',
-            'title' => "Student Curriculum",
+            'title' => "Student Grade Form",
             'breadcrumbs' => [
                 [
                     'link' => route('student'),
                     'label' => 'Student',
                 ], [
+                    'link' => route('student.curriculum', ['user' => $this->user_id]),
                     'label' => 'Curriculum',
+                ], [
+                    'label' => 'Grade Form',
                     'active' => true,
                 ],
             ],
