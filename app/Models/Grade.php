@@ -17,14 +17,24 @@ class Grade extends Model
     ];
 
     protected $attributes = [
-        'grade' => 5,
+        // 'grade' => 5,
     ];
 
     protected $casts = [
-        'grade'  => GradeCast::class,
+        'grade' => GradeCast::class,
     ];
 
     # attributes -------------------------------------------------------
+
+    public function getIsFailedAttribute()
+    {
+        return in_array($this->grade, ['INC', 5]);
+    }
+
+    public function getIsPassedAttribute()
+    {
+        return is_numeric($this->grade) && $this->grade <= 3;
+    }
 
     # relationships ----------------------------------------------------
 

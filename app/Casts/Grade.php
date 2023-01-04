@@ -43,6 +43,6 @@ class Grade implements CastsAttributes
      */
     public function set($model, string $key, $value, array $attributes)
     {
-        return $value;
+        return is_numeric($value)? $value: ($value==='INC'? 4: null);
     }
 }

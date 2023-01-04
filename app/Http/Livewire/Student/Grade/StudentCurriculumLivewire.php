@@ -3,12 +3,20 @@
 namespace App\Http\Livewire\Student\Grade;
 
 use App\Models\Curriculum;
+use App\Models\Grade;
 use App\Models\User;
+use App\Traits\AlertTrait;
 use Livewire\Component;
 
 class StudentCurriculumLivewire extends Component
 {
+    use AlertTrait;
+
     public $user_id;
+
+    protected $listeners = [
+        'refresh' => '$refresh',
+    ];
 
     public function mount(User $user)
     {
@@ -61,5 +69,12 @@ class StudentCurriculumLivewire extends Component
                 $query->where('users.id', $user_id);
             })
             ->first();
+    }
+
+    public function delete($grade_id)
+    {
+        if (Grade::where('id', $grade_id)->delete()) {
+            $this->alert_success('Record Deleted!');
+        }
     }
 }
