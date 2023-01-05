@@ -18,6 +18,7 @@ use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Role\RoleLivewire;
 use App\Http\Livewire\Role\RolePermissionLivewire;
+use App\Http\Livewire\Student\Curriculum\StudentCurriculumFormLivewire;
 use App\Http\Livewire\Student\Curriculum\StudentCurriculumLivewire;
 use App\Http\Livewire\Student\Grade\StudentCurriculumLivewire as StudentCurriculumGradeLivewire;
 use App\Http\Livewire\Student\StudentFormLivewire;
@@ -68,9 +69,15 @@ Route::middleware(['user'])->group(function () {
 
         Route::get('/form/{user_id?}', StudentFormLivewire::class)->name('student.form');
 
-        Route::get('/{user}/curriculum', StudentCurriculumLivewire::class)->name('student.curriculum');
+        Route::prefix('/{user}/curriculum')->group(function () {
 
-        Route::get('/{user}/curriculum/grade/form', StudentCurriculumGradeLivewire::class)->name('student.curriculum.grade');
+            Route::get('/form', StudentCurriculumFormLivewire::class)->name('student.curriculum.form');
+
+            Route::get('/view', StudentCurriculumLivewire::class)->name('student.curriculum');
+
+            Route::get('/grade/form', StudentCurriculumGradeLivewire::class)->name('student.curriculum.grade');
+
+        });
 
     });
 

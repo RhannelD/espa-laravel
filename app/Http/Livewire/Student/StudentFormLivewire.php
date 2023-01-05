@@ -23,7 +23,7 @@ class StudentFormLivewire extends Component
         return [
             'user.firstname' => "required",
             'user.lastname' => "required",
-            'user.sr_code' => ["required", new SrCodeRule],
+            'user.sr_code' => ["required", "unique:users,sr_code,{$this->user_id},id", new SrCodeRule],
             'user.email' => "required|unique:users,email,{$this->user_id},id",
             'user.sex' => "required|in:male,female",
         ];
@@ -66,13 +66,9 @@ class StudentFormLivewire extends Component
     {
         $data = $this->validate();
 
-        $redirect = isset($this->user_id)
+        isset($this->user_id)
             ? $this->update($data)
             : $this->store($data);
-
-        if ($redirect) {
-            return redirect()->route('student');
-        }
     }
 
     protected function store($data)
@@ -87,7 +83,7 @@ class StudentFormLivewire extends Component
     
         if ( $user->wasRecentlyCreated ) {
             $this->session_flash_alert_info('Success!', 'Record has been successfully added');
-            return true;
+            return redirect()->route('student.curriculum.form', ['user' => $user->id]);
         }
     }
 
@@ -96,7 +92,7 @@ class StudentFormLivewire extends Component
         $user = User::find($this->user_id);
         if ( Gate::allows('updateStudent', $user) && $user->update($data['user']) ) {
             $this->session_flash_alert_info('Success!', 'Record has been successfully updated');
-            return true;
+            return redirect()->route('student');
         }
     }
 }

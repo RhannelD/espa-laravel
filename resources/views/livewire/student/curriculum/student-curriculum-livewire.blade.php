@@ -22,13 +22,17 @@
             <i class="bi bi-backspace"></i>
             Back
         </a>
+        <a href="{{ route('student.curriculum.form', ['user'=>$user_id]) }}" class="btn btn-primary">
+            <i class="bi bi-pen-fill"></i>
+            Change Curriculum
+        </a>
         <a href="{{ route('student.curriculum.grade', ['user'=>$user_id]) }}" class="btn btn-primary">
             <i class="bi bi-pen-fill"></i>
             Grade Form
         </a>
     </div>
     <hr>
-    
+
     @include('livewire.curriculum.curriculum-info')
 
     @foreach ($curriculum->courses->groupBy(['year', 'semester']) as $curriculum_courses_by_year)

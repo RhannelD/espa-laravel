@@ -62,6 +62,7 @@ class StudentLivewire extends Component
     protected function getStudents()
     {
         return User::query()
+            ->withCount('curriculum as has_curriculum')
             ->search($this->search)
             ->isStudent()
             ->paginate($this->showRow);
