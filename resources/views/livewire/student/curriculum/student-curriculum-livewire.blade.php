@@ -22,14 +22,18 @@
             <i class="bi bi-backspace"></i>
             Back
         </a>
-        <a href="{{ route('student.curriculum.form', ['user'=>$user_id]) }}" class="btn btn-primary">
-            <i class="bi bi-pen-fill"></i>
-            Change Curriculum
-        </a>
-        <a href="{{ route('student.curriculum.grade', ['user'=>$user_id]) }}" class="btn btn-primary">
-            <i class="bi bi-pen-fill"></i>
-            Grade Form
-        </a>
+        @can('updateStudentCurriculum', $user)
+            <a href="{{ route('student.curriculum.form', ['user'=>$user_id]) }}" class="btn btn-primary">
+                <i class="bi bi-pen-fill"></i>
+                Change Curriculum
+            </a>
+        @endcan
+        @can('updateStudentGrade', $user)
+            <a href="{{ route('student.curriculum.grade', ['user'=>$user_id]) }}" class="btn btn-primary">
+                <i class="bi bi-pen-fill"></i>
+                Grade Form
+            </a>
+        @endcan
     </div>
     <hr>
 

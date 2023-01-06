@@ -7,10 +7,13 @@ use App\Models\Grade;
 use App\Models\Student;
 use App\Models\User;
 use App\Traits\AlertTrait;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class StudentCurriculumLivewire extends Component
 {
+    use AuthorizesRequests;
     use AlertTrait;
 
     public $user_id;
@@ -21,16 +24,20 @@ class StudentCurriculumLivewire extends Component
 
     public function mount(User $user)
     {
-        abort_unless($user->isStudent, 403);
+        $this->authorize('updateStudentGrade', $user);
         $this->user_id = $user->id;
         $this->hydrate();
     }
 
     public function hydrate()
     {
-        $student_has_curriculum = Student::where('user_id', $this->user_id)->exists();
-        if (!$student_has_curriculum) {
+        $user = $this->getUser();
+        if (!$user->curriculum()->exists()) {
             return redirect()->route('student.curriculum.form', ['user' => $this->user_id]);
+        }
+
+        if (Gate::denies('updateStudentGrade', $user)) {
+            return redirect(url()->previous());
         }
     }
 
@@ -82,7 +89,8 @@ class StudentCurriculumLivewire extends Component
 
     public function delete($grade_id)
     {
-        if (Grade::where('id', $grade_id)->delete()) {
+        $user = $this->getUser();
+        if (Gate::allows('deleteStudentGrade', $user) && $user->grades()->where('id', $grade_id)->delete()) {
             $this->alert_success('Record Deleted!');
         }
     }

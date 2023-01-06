@@ -5,24 +5,32 @@ namespace App\Http\Livewire\Student\Curriculum;
 use App\Models\Curriculum;
 use App\Models\Student;
 use App\Models\User;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class StudentCurriculumLivewire extends Component
 {
+    use AuthorizesRequests;
+
     public $user_id;
 
     public function mount(User $user)
     {
-        abort_unless($user->isStudent, 403);
+        $this->authorize('viewStudentCurriculum', $user);
         $this->user_id = $user->id;
         $this->hydrate();
     }
 
     public function hydrate()
     {
-        $student_has_curriculum = Student::where('user_id', $this->user_id)->exists();
-        if (!$student_has_curriculum) {
+        $user = $this->getUser();
+        if (!$user->curriculum()->exists()) {
             return redirect()->route('student.curriculum.form', ['user' => $this->user_id]);
+        }
+
+        if (Gate::denies('viewStudentCurriculum', $user)) {
+            return redirect(url()->previous());
         }
     }
 

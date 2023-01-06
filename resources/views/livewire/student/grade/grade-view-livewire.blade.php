@@ -25,8 +25,10 @@
         {{ $grade->course->laboratory }}
     </td>
     <td class="text-center py-1">
-        <button onclick="delete_grade({{ $grade_id }})" type="button" class="btn btn-sm my-0 btn-danger">
-            <i class="bi bi-trash-fill"></i>
-        </button>
+        @can('deleteStudentGrade', $grade->user)
+            <button onclick="delete_grade({{ $grade_id }})" type="button" class="btn btn-sm my-0 btn-danger">
+                <i class="bi bi-trash-fill"></i>
+            </button>
+        @endcan
     </td>
 </tr>

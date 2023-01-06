@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
     public function run()
     {
         $this->createPermissions();
-        
+
         $roles = [
             [
                 'role' => ['name' => 'Super Admin'],
@@ -58,7 +58,7 @@ class RoleSeeder extends Seeder
         foreach ($roles as $role_data) {
             $role = Role::create($role_data['role']);
 
-            foreach ($role_data['permissions']??[] as $permission_value) {
+            foreach ($role_data['permissions'] ?? [] as $permission_value) {
                 $role->givePermissionTo($permission_value);
             }
         }
@@ -116,6 +116,10 @@ class RoleSeeder extends Seeder
                 'Student Update',
                 'Student Password Update',
                 'Student Delete',
+                'Student Curriculum View',
+                'Student Curriculum Update',
+                'Student Grade Update',
+                'Student Grade Delete',
             ],
             'Role' => [
                 'Role List',

@@ -17,7 +17,7 @@ class UserPolicy
      */
     public function viewAnyStudent(User $user)
     {
-        return $user->hasPermissionTo('Student List')? true: null;
+        return $user->hasPermissionTo('Student List') ? true : null;
     }
 
     /**
@@ -29,7 +29,7 @@ class UserPolicy
      */
     public function viewStudent(User $user, User $model)
     {
-        return $user->hasPermissionTo('Student View')? true: null;
+        return $user->hasPermissionTo('Student View') ? true : null;
     }
 
     /**
@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function createStudent(User $user)
     {
-        return $user->hasPermissionTo('Student Create')? true: null;
+        return $user->hasPermissionTo('Student Create') ? true : null;
     }
 
     /**
@@ -53,12 +53,12 @@ class UserPolicy
     public function updateStudent(User $user, User $model)
     {
         return $user->id == $model->id
+        ? true
+        : (
+            $user->hasPermissionTo('Officer Update')
             ? true
-            : (
-                $user->hasPermissionTo('Officer Update')
-                    ? true
-                    : null
-            );
+            : null
+        );
     }
 
     /**
@@ -71,12 +71,12 @@ class UserPolicy
     public function updateStudentPassword(User $user, User $model)
     {
         return $user->id == $model->id
+        ? true
+        : (
+            $user->hasPermissionTo('Officer Update')
             ? true
-            : (
-                $user->hasPermissionTo('Officer Update')
-                    ? true
-                    : null
-            );
+            : null
+        );
     }
 
     /**
@@ -88,8 +88,58 @@ class UserPolicy
      */
     public function deleteStudent(User $user, User $model)
     {
-        return $user->hasPermissionTo('Student Delete')? true: null;
+        return $user->hasPermissionTo('Student Delete') ? true : null;
     }
+
+    /**
+     * Determine whether the user can view the student's curriculum.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function viewStudentCurriculum(User $user, User $model)
+    {
+        return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student Curriculum View') ? true : null);
+    }
+
+    /**
+     * Determine whether the user can update the student's curriculum.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function updateStudentCurriculum(User $user, User $model)
+    {
+        return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student Curriculum Update') ? true : null);
+    }
+
+    /**
+     * Determine whether the user can update the student's grades.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function updateStudentGrade(User $user, User $model)
+    {
+        return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student Grade Update') ? true : null);
+    }
+
+    /**
+     * Determine whether the user can delete the student's grades.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function deleteStudentGrade(User $user, User $model)
+    {
+        return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student Grade Delete') ? true : null);
+    }
+
+    // ----------------------------------------------------------------------------------
 
     /**
      * Determine whether the user can view any officer models.
@@ -99,7 +149,7 @@ class UserPolicy
      */
     public function viewOfficer(User $user)
     {
-        return $user->hasPermissionTo('Officer View')? true: null;
+        return $user->hasPermissionTo('Officer View') ? true : null;
     }
 
     /**
@@ -110,7 +160,7 @@ class UserPolicy
      */
     public function viewAnyOfficer(User $user)
     {
-        return $user->hasPermissionTo('Officer List')? true: null;
+        return $user->hasPermissionTo('Officer List') ? true : null;
     }
 
     /**
@@ -121,7 +171,7 @@ class UserPolicy
      */
     public function createOfficer(User $user)
     {
-        return $user->hasPermissionTo('Officer Create')? true: null;
+        return $user->hasPermissionTo('Officer Create') ? true : null;
     }
 
     /**
@@ -134,16 +184,16 @@ class UserPolicy
     public function updateOfficer(User $user, User $model)
     {
         return $user->id == $model->id
-            ? true
+        ? true
+        : (
+            $model->hasRole('Super Admin')
+            ? false
             : (
-                $model->hasRole('Super Admin')
-                    ? false
-                    : (
-                        $user->hasPermissionTo('Officer Update')
-                            ? true
-                            : null
-                    )
-            );
+                $user->hasPermissionTo('Officer Update')
+                ? true
+                : null
+            )
+        );
     }
 
     /**
@@ -156,16 +206,16 @@ class UserPolicy
     public function updateOfficerPassword(User $user, User $model)
     {
         return $user->id == $model->id
-            ? true
+        ? true
+        : (
+            $model->hasRole('Super Admin')
+            ? false
             : (
-                $model->hasRole('Super Admin')
-                    ? false
-                    : (
-                        $user->hasPermissionTo('Officer Password Update')
-                            ? true
-                            : null
-                    )
-            );
+                $user->hasPermissionTo('Officer Password Update')
+                ? true
+                : null
+            )
+        );
     }
 
     /**
@@ -178,12 +228,12 @@ class UserPolicy
     public function updateOfficerRoleAccess(User $user, User $model)
     {
         return ($user->id == $model->id || $user->is_student || $model->hasRole('Super Admin'))
-            ? false
-            : (
-                $user->hasPermissionTo('Officer Role Permission Update')
-                    ? true
-                    : null
-            );
+        ? false
+        : (
+            $user->hasPermissionTo('Officer Role Permission Update')
+            ? true
+            : null
+        );
     }
 
     /**
@@ -195,6 +245,6 @@ class UserPolicy
      */
     public function deleteOfficer(User $user, User $model)
     {
-        return ($model->hasRole('Super Admin'))? false: ($user->hasPermissionTo('Officer Delete')? true: null);
+        return ($model->hasRole('Super Admin')) ? false : ($user->hasPermissionTo('Officer Delete') ? true : null);
     }
 }

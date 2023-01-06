@@ -42,10 +42,12 @@
                             <a href="{{ route('student.form', [$student->id]) }}" class="btn btn-sm my-0 btn-primary">
                                 <i class="bi bi-pen-fill"></i>
                             </a>
-                            <a href="{{ $student->has_curriculum? route('student.curriculum', ['user' => $student->id]): route('student.curriculum.form', ['user' => $student->id]) }}" 
-                                class="btn btn-sm my-0 btn-primary">
-                                <i class="bi bi-file-medical"></i>
-                            </a>
+                            @can('viewStudentCurriculum', $student)
+                                <a href="{{ $student->has_curriculum? route('student.curriculum', ['user' => $student->id]): route('student.curriculum.form', ['user' => $student->id]) }}" 
+                                    class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-file-medical"></i>
+                                </a>
+                            @endcan
                             <button wire:click="$emitTo('student.student-password-livewire', 'edit', {{ $student->id }})" type="button" class="btn btn-sm my-0 btn-dark">
                                 <i class="bi bi-key-fill"></i>
                             </button>

@@ -7,6 +7,7 @@ use App\Models\Student;
 use App\Models\User;
 use App\Traits\AlertTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -32,10 +33,17 @@ class StudentCurriculumFormLivewire extends Component
 
     public function mount(User $user)
     {
-        abort_unless($user->isStudent, 403);
+        $this->authorize('viewStudentCurriculum', $user);
         $this->user_id = $user->id;
 
         $this->setUrlIntended(url()->current(), url()->previous());
+    }
+
+    public function hydrate()
+    {
+        if (Gate::denies('updateStudentCurriculum', $this->getUser())) {
+            return redirect(url()->previous());
+        }
     }
 
     public function setUrlIntended($current_url, $previous_url)
@@ -96,7 +104,7 @@ class StudentCurriculumFormLivewire extends Component
         }
 
         $user = $this->getUser();
-        if ($user && $user->student()->updateOrCreate([], ['curriculum_id' => $curriculum_id])) {
+        if (Gate::allows('updateStudentCurriculum', $user) && $user->student()->updateOrCreate([], ['curriculum_id' => $curriculum_id])) {
             $this->session_flash_alert_info('Success!', 'Record has been successfully updated');
             return redirect()->intended(route('student'));
         }

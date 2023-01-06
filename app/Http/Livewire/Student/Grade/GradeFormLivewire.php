@@ -4,7 +4,9 @@ namespace App\Http\Livewire\Student\Grade;
 
 use App\Models\Course;
 use App\Models\Grade;
+use App\Models\User;
 use App\Traits\AlertTrait;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class GradeFormLivewire extends Component
@@ -20,7 +22,6 @@ class GradeFormLivewire extends Component
             "in:1,1.25,1.5,1.75,2,2.25,2.5,2.75,3,INC,5,",
         ],
         'course_id' => 'exists:courses,id',
-        'user_id' => 'exists:users,id',
     ];
 
     public function mount($course_id, $user_id)
@@ -59,9 +60,13 @@ class GradeFormLivewire extends Component
 
     protected function save_grade($data)
     {
-        $grade = Grade::create($data['grade'] + [
+        $user = User::find($this->user_id);
+        if (Gate::denies('updateStudentGrade', $user)) {
+            return;
+        }
+
+        $grade = $user->grades()->create($data['grade'] + [
             'course_id' => $data['course_id'],
-            'user_id' => $data['user_id'],
         ]);
 
         if ($grade->wasRecentlyCreated) {
