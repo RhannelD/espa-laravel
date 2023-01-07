@@ -31,8 +31,20 @@ class CurriculumSeeder extends Seeder
 
                 foreach ($curriculum_data['courses'] as $course) {
                     $course['course_id'] = $courses->where('code', $course['code'])->first()->id;
-                    unset($course['code']);
-                    $curriculum->courses()->create($course);
+                    $curriculum_course = $curriculum->courses()->create(\Arr::except($course, ["code", "prerequisites"]));
+
+                    if (!isset($course['prerequisites'])) {
+                        continue;
+                    }
+                    foreach ($course['prerequisites'] as $prerequisite_course_code) {
+                        $prerequisite_curriculum_course = $curriculum->courses()->whereHas('course', function($query) use ($prerequisite_course_code) {
+                            $query->where('code', $prerequisite_course_code);
+                        })->first();
+
+                        $curriculum_course->curriculum_course_prerequisites()->create([
+                            'prerequisite_cc_id' => $prerequisite_curriculum_course->id,
+                        ]);
+                    }
                 }
             }
         }
@@ -95,16 +107,25 @@ class CurriculumSeeder extends Seeder
                         "code" => "CS 111",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "CS 131",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "MATH 111",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "GEd 102",
+                        ],
                     ],
                     [
                         "code" => "Fili 102",
@@ -125,26 +146,42 @@ class CurriculumSeeder extends Seeder
                         "code" => "PE 102",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "PE 101",
+                        ],
                     ],
                     [
                         "code" => "NSTP 121",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "NSTP 111",
+                        ],
                     ],
                     [
                         "code" => "CS 121",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 111",
+                        ],
                     ],
                     [
                         "code" => "IT 211",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 111",
+                        ],
                     ],
                     [
                         "code" => "CS 211",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 111",
+                            "CS 131",
+                        ],
                     ],
                     [
                         "code" => "Litr 102",
@@ -155,46 +192,73 @@ class CurriculumSeeder extends Seeder
                         "code" => "CpE 405",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "MATH 111",
+                        ],
                     ],
                     [
                         "code" => "Phy 101",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "MATH 111",
+                        ],
                     ],
                     [
                         "code" => "IT 212",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "PE 103",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "PE 101",
+                        ],
                     ],
                     [
                         "code" => "IT 221",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "IT 223",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 212",
+                        ],
                     ],
                     [
                         "code" => "IT 222",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 211",
+                        ],
                     ],
                     [
                         "code" => "MATH 408",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "MATH 111",
+                        ],
                     ],
                     [
                         "code" => "ES 101",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "Phy 101",
+                        ],
                     ],
                     [
                         "code" => "GEd 106",
@@ -210,36 +274,58 @@ class CurriculumSeeder extends Seeder
                         "code" => "PE 104",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "PE 101",
+                        ],
                     ],
                     [
                         "code" => "IT 311",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 221",
+                            "IT 222",
+                        ],
                     ],
                     [
                         "code" => "IT 312",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 131",
+                        ],
                     ],
                     [
                         "code" => "NTT 401",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 223",
+                        ],
                     ],
                     [
                         "code" => "NTT 402",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 223",
+                        ],
                     ],
                     [
                         "code" => "IT 313",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 222",
+                        ],
                     ],
                     [
                         "code" => "IT 314",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 211",
+                        ],
                     ],
                     [
                         "code" => "GEd 107",
@@ -250,26 +336,41 @@ class CurriculumSeeder extends Seeder
                         "code" => "IT 321",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 314",
+                        ],
                     ],
                     [
                         "code" => "NTT 403",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "NTT 401",
+                        ],
                     ],
                     [
                         "code" => "NTT 404",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "NTT 402",
+                        ],
                     ],
                     [
                         "code" => "IT 322",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 312",
+                        ],
                     ],
                     [
                         "code" => "IT 323",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 223",
+                        ],
                     ],
                     [
                         "code" => "IT 324",
@@ -280,16 +381,25 @@ class CurriculumSeeder extends Seeder
                         "code" => "IT 325",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 313",
+                        ],
                     ],
                     [
                         "code" => "IT 331",
                         "year" => "3",
                         "semester" => "3",
+                        "prerequisites" => [
+                            "IT 321",
+                        ],
                     ],
                     [
                         "code" => "IT 332",
                         "year" => "3",
                         "semester" => "3",
+                        "prerequisites" => [
+                            "IT 314",
+                        ],
                     ],
                     [
                         "code" => "CS 423",
@@ -300,6 +410,9 @@ class CurriculumSeeder extends Seeder
                         "code" => "IT 411",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 324",
+                        ],
                     ],
                     [
                         "code" => "ENGG 405",
@@ -310,21 +423,33 @@ class CurriculumSeeder extends Seeder
                         "code" => "NTT 405",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "NTT 403",
+                        ],
                     ],
                     [
                         "code" => "IT 413",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 323",
+                        ],
                     ],
                     [
                         "code" => "IT 414",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 325",
+                        ],
                     ],
                     [
                         "code" => "IT 412",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 332",
+                        ],
                     ],
                     [
                         "code" => "IT 421",
@@ -387,16 +512,25 @@ class CurriculumSeeder extends Seeder
                         "code" => "CS 111",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "CS 131",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "MATH 111",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "GEd 102",
+                        ],
                     ],
                     [
                         "code" => "Fili 102",
@@ -417,26 +551,42 @@ class CurriculumSeeder extends Seeder
                         "code" => "PE 102",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "PE 101",
+                        ],
                     ],
                     [
                         "code" => "NSTP 121",
                         "year" => "1",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "NSTP 111",
+                        ],
                     ],
                     [
                         "code" => "CS 121",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 111",
+                        ],
                     ],
                     [
                         "code" => "IT 211",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 111",
+                        ],
                     ],
                     [
                         "code" => "CS 211",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 111",
+                            "CS 131",
+                        ],
                     ],
                     [
                         "code" => "Litr 102",
@@ -447,46 +597,73 @@ class CurriculumSeeder extends Seeder
                         "code" => "CpE 405",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "MATH 111",
+                        ],
                     ],
                     [
                         "code" => "Phy 101",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "MATH 111",
+                        ],
                     ],
                     [
                         "code" => "IT 212",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "PE 103",
                         "year" => "2",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "PE 101",
+                        ],
                     ],
                     [
                         "code" => "IT 221",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 111",
+                        ],
                     ],
                     [
                         "code" => "IT 223",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 212",
+                        ],
                     ],
                     [
                         "code" => "IT 222",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 211",
+                        ],
                     ],
                     [
                         "code" => "MATH 408",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "MATH 111",
+                        ],
                     ],
                     [
                         "code" => "ES 101",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "Phy 101",
+                        ],
                     ],
                     [
                         "code" => "GEd 106",
@@ -502,36 +679,60 @@ class CurriculumSeeder extends Seeder
                         "code" => "PE 104",
                         "year" => "2",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "PE 101",
+                        ],
                     ],
                     [
                         "code" => "IT 311",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 221",
+                            "IT 222",
+                        ],
                     ],
                     [
                         "code" => "IT 312",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "CS 131",
+                        ],
                     ],
                     [
                         "code" => "BAT 401",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 221",
+                            "IT 222",
+                        ],
                     ],
                     [
                         "code" => "BAT 402",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 221",
+                            "IT 222",
+                        ],
                     ],
                     [
                         "code" => "IT 313",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 222",
+                        ],
                     ],
                     [
                         "code" => "IT 314",
                         "year" => "3",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 221",
+                        ],
                     ],
                     [
                         "code" => "GEd 107",
@@ -542,26 +743,41 @@ class CurriculumSeeder extends Seeder
                         "code" => "IT 321",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 314",
+                        ],
                     ],
                     [
                         "code" => "BAT 403",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "BAT 401",
+                        ],
                     ],
                     [
                         "code" => "BAT 404",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "BAT 402",
+                        ],
                     ],
                     [
                         "code" => "IT 322",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 312",
+                        ],
                     ],
                     [
                         "code" => "IT 323",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 223",
+                        ],
                     ],
                     [
                         "code" => "IT 324",
@@ -572,16 +788,25 @@ class CurriculumSeeder extends Seeder
                         "code" => "IT 325",
                         "year" => "3",
                         "semester" => "2",
+                        "prerequisites" => [
+                            "IT 313",
+                        ],
                     ],
                     [
                         "code" => "IT 331",
                         "year" => "3",
                         "semester" => "3",
+                        "prerequisites" => [
+                            "IT 321",
+                        ],
                     ],
                     [
                         "code" => "IT 332",
                         "year" => "3",
                         "semester" => "3",
+                        "prerequisites" => [
+                            "IT 314",
+                        ],
                     ],
                     [
                         "code" => "CS 423",
@@ -592,6 +817,9 @@ class CurriculumSeeder extends Seeder
                         "code" => "IT 411",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 324",
+                        ],
                     ],
                     [
                         "code" => "ENGG 405",
@@ -602,21 +830,33 @@ class CurriculumSeeder extends Seeder
                         "code" => "BAT 405",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "BAT 404",
+                        ],
                     ],
                     [
                         "code" => "IT 413",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 323",
+                        ],
                     ],
                     [
                         "code" => "IT 414",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 325",
+                        ],
                     ],
                     [
                         "code" => "IT 412",
                         "year" => "4",
                         "semester" => "1",
+                        "prerequisites" => [
+                            "IT 332",
+                        ],
                     ],
                     [
                         "code" => "IT 421",
