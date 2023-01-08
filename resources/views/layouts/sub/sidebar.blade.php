@@ -12,6 +12,15 @@
             </li>
         @endcan
 
+        @can('viewAny', \App\Models\Request::class)
+            <li class="nav-item">
+                <a @class(['nav-link', 'collapsed' => $active_nav!='request']) href="{{ route('request') }}">
+                    <i class="bi bi-envelope"></i>
+                    <span>Request</span>
+                </a>
+            </li>
+        @endcan
+
         @can('viewAnyStudent', \App\Models\User::class)
             <li class="nav-item">
                 <a @class(['nav-link', 'collapsed' => $active_nav!='student']) href="{{ route('student') }}">

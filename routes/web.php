@@ -16,6 +16,7 @@ use App\Http\Livewire\Officer\OfficerRolePermissionLivewire;
 use App\Http\Livewire\Permission\PermissionLivewire;
 use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
+use App\Http\Livewire\Request\RequestLivewire;
 use App\Http\Livewire\Role\RoleLivewire;
 use App\Http\Livewire\Role\RolePermissionLivewire;
 use App\Http\Livewire\Student\Curriculum\StudentCurriculumFormLivewire;
@@ -62,6 +63,8 @@ Route::middleware(['user'])->group(function () {
     Route::get('/course', CourseLivewire::class)->name('course');
 
     Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
+
+    Route::get('/request', RequestLivewire::class)->name('request');
 
     Route::prefix('/student')->group(function () {
 

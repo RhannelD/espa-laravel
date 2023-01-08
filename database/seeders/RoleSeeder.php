@@ -121,6 +121,13 @@ class RoleSeeder extends Seeder
                 'Student Grade Update',
                 'Student Grade Delete',
             ],
+            'Request' => [
+                'Request List',
+                'Request View',
+                'Request Create',
+                'Request Update',
+                'Request Delete',
+            ],
             'Role' => [
                 'Role List',
                 'Role View',
