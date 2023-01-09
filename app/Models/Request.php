@@ -15,7 +15,7 @@ class Request extends Model
 
     protected $fillable = [
         'user_id',
-        'college_id',
+        'program_id',
         'message',
     ];
 
@@ -36,9 +36,9 @@ class Request extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function college()
+    public function program()
     {
-        return $this->belongsTo(College::class, 'college_id', 'id');
+        return $this->belongsTo(Program::class, 'program_id', 'id');
     }
 
     # scopes -----------------------------------------------------------

@@ -16,12 +16,12 @@ class CreateRequestsTable extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable();
-            $table->foreignId('college_id');
+            $table->foreignId('program_id');
             $table->text('message');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users')->nullOnDelete();;
-            $table->foreign('college_id')->references('id')->on('colleges')->onDelete('cascade');
+            $table->foreign('program_id')->references('id')->on('programs')->onDelete('cascade');
         });
     }
 
