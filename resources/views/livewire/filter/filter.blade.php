@@ -19,4 +19,10 @@
             </select>
         </div>
     </div>
+
+    <x-slot name="buttons">
+        <button wire:click="clear_filter()" type="button" class="btn btn-dark">
+            Clear Filter
+        </button>
+    </x-slot>
 </x-modal.modal>    

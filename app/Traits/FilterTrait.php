@@ -27,4 +27,9 @@ trait FilterTrait {
             unset($this->filters['college_id']);
         }
     }
+
+    public function clear_filter()
+    {
+        $this->filters = [];
+    }
 }

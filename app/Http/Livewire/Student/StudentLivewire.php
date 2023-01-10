@@ -3,16 +3,18 @@
 namespace App\Http\Livewire\Student;
 
 use App\Models\User;
-use Livewire\Component;
 use App\Traits\AlertTrait;
-use Livewire\WithPagination;
-use Illuminate\Support\Facades\Gate;
+use App\Traits\FilterTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Gate;
+use Livewire\Component;
+use Livewire\WithPagination;
 
 class StudentLivewire extends Component
 {
     use AuthorizesRequests;
     use AlertTrait;
+    use FilterTrait;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -44,6 +46,8 @@ class StudentLivewire extends Component
     {
         return view('livewire.student.student-livewire', [
             'students' => $this->getStudents(),
+            'filter_colleges' => $this->getFilterColleges(),
+            'filter_programs' => $this->getFilterPrograms(),
         ])->extends('layouts.app', [
             'active_nav' => 'student',
             'title' => 'Student',
@@ -61,10 +65,23 @@ class StudentLivewire extends Component
 
     protected function getStudents()
     {
+        $filters = $this->filters;
+
         return User::query()
             ->withCount('curriculum as has_curriculum')
             ->search($this->search)
             ->isStudent()
+            ->when(!empty($filters['program_id']), function ($query) use ($filters) {
+                $query->whereHas('student.curriculum', function ($query) use ($filters) {
+                    $query->where('program_id', $filters['program_id']);
+                });
+            }, function ($query) use ($filters) {
+                $query->when(!empty($filters['college_id']), function ($query) use ($filters) {
+                    $query->whereHas('student.curriculum.program', function ($query) use ($filters) {
+                        $query->where('college_id', $filters['college_id']);
+                    });
+                });
+            })
             ->paginate($this->showRow);
     }
 

@@ -2,12 +2,17 @@
     <x-card.card>
         <x-card.search>
             <x-card.search-right>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filter">
+                    <i class="bi bi-funnel"></i>
+                </button>
                 <a href="{{ route('student.form') }}" type="button" class="btn btn-success">
                     <i class="bi bi-plus-circle-fill"></i>
                     Create
                 </a>
             </x-card.search-right>
         </x-card.search>
+
+        @includeWhen(count($filters), 'livewire.filter.filter-list', ['filters' => $filters])
 
         <x-table.table>
             <thead>
@@ -68,6 +73,8 @@
     <div id="div-modals">
         @livewire('student.student-password-livewire', key('student-password-livewire'))
     </div>
+
+    @include('livewire.filter.filter')
 
     <script>
         function delete_record(id) {

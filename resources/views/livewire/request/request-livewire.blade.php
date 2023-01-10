@@ -8,6 +8,8 @@
             </x-card.search-right>
         </x-card.search>
 
+        @includeWhen(count($filters), 'livewire.filter.filter-list', ['filters' => $filters])
+
         <x-table.table>
             <thead>
                 <tr>
