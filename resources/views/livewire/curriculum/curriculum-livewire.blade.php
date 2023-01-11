@@ -3,6 +3,9 @@
         <x-card.search>
             @can('create', \App\Models\Curriculum::class)
                 <x-card.search-right>
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#filter">
+                        <i class="bi bi-funnel"></i>
+                    </button>
                     <a href="{{ route('curriculum.form') }}" type="button" class="btn btn-success">
                         <i class="bi bi-plus-circle-fill"></i>
                         Create
@@ -10,6 +13,8 @@
                 </x-card.search-right>
             @endcan
         </x-card.search>
+
+        @includeWhen(count($filters), 'livewire.filter.filter-list', ['filters' => $filters])
 
         <x-table.table>
             <thead>
@@ -79,6 +84,8 @@
     <div id="div-modals">
         @livewire('curriculum.curriculum-duplicate-livewire', key('curriculum-duplicate-livewire'))
     </div>
+
+    @include('livewire.filter.filter')
 
     <script>
         function delete_record(id) {

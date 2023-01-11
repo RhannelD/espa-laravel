@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Curriculum;
 
 use App\Models\Curriculum;
 use App\Traits\AlertTrait;
+use App\Traits\FilterTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
@@ -13,6 +14,7 @@ class CurriculumLivewire extends Component
 {
     use AuthorizesRequests;
     use AlertTrait;
+    use FilterTrait;
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
@@ -44,6 +46,8 @@ class CurriculumLivewire extends Component
     {
         return view('livewire.curriculum.curriculum-livewire', [
             'curricula' => $this->getCurricula(),
+            'filter_colleges' => $this->getFilterColleges(),
+            'filter_programs' => $this->getFilterPrograms(),
         ])->extends('layouts.app', [
             'active_nav' => 'curriculum',
             'title' => 'Curriculum',
@@ -61,12 +65,23 @@ class CurriculumLivewire extends Component
 
     protected function getCurricula()
     {
+        $filters = $this->filters;
+
         return Curriculum::query()
             ->with([
                 'program' => function ($query) {
                     $query->with('college');
                 },
             ])
+            ->when(!empty($filters['program_id']), function ($query) use ($filters) {
+                $query->where('program_id', $filters['program_id']);
+            }, function ($query) use ($filters) {
+                $query->when(!empty($filters['college_id']), function ($query) use ($filters) {
+                    $query->whereHas('program', function ($query) use ($filters) {
+                        $query->where('college_id', $filters['college_id']);
+                    });
+                });
+            })
             ->search($this->search, Curriculum::SEARCHFILTERS + ['program' => ['abbreviation', 'college' => ['abbreviation']]])
             ->paginate($this->showRow);
     }
