@@ -35,6 +35,8 @@ class RedirectIfAuthenticated
     {
         if ($user->can('viewAnyDashboard')) {
             return redirect()->route('dashboard');
+        } else if ($user->can('viewAny', \App\Models\Request::class)) {
+            return redirect()->route('request');
         } else if ($user->can('viewAnyStudent', \App\Models\User::class)) {
             return redirect()->route('student');
         } else if ($user->can('viewAny', \App\Models\Curriculum::class)) {

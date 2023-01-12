@@ -18,7 +18,7 @@
 
     <hr>
     <div class="text-end">
-        <a href="{{ route('student') }}" class="btn btn-secondary">
+        <a href="{{ url()->previous() }}" class="btn btn-secondary">
             <i class="bi bi-backspace"></i>
             Back
         </a>

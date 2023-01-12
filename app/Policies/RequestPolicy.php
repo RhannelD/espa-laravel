@@ -18,7 +18,7 @@ class RequestPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasPermissionTo('Request List')? true: null;
+        return $user->hasPermissionTo('Request List') ? true : ($user->is_student ? true : null);
     }
 
     /**
@@ -41,7 +41,7 @@ class RequestPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->is_student;
     }
 
     /**
@@ -65,7 +65,7 @@ class RequestPolicy
      */
     public function delete(User $user, Request $request)
     {
-        //
+        return $user->is_student;
     }
 
     /**

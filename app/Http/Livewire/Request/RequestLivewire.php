@@ -3,9 +3,11 @@
 namespace App\Http\Livewire\Request;
 
 use App\Models\Request;
+use App\Models\User;
 use App\Traits\AlertTrait;
 use App\Traits\FilterTrait;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -46,9 +48,7 @@ class RequestLivewire extends Component
     {
         return view('livewire.request.request-livewire', [
             'requests' => $this->getRequests(),
-            'filter_colleges' => $this->getFilterColleges(),
-            'filter_programs' => $this->getFilterPrograms(),
-        ])->extends('layouts.app', [
+        ] + $this->getFilterDataIfNotStudent())->extends('layouts.app', [
             'active_nav' => 'request',
             'title' => 'Request',
             'breadcrumbs' => [
@@ -68,6 +68,7 @@ class RequestLivewire extends Component
         $filters = $this->filters;
 
         return Request::query()
+            ->latest()
             ->search($this->search, Request::SEARCHFILTERS + [
                 'user' => ['sr_code', 'firstname', 'lastname'],
                 'program' => ['abbreviation', 'college' => ['abbreviation']],
@@ -81,7 +82,23 @@ class RequestLivewire extends Component
                     });
                 });
             })
+            ->when(Gate::allows('isStudent', User::class), function ($query) {
+                $query->whereHas('user', function($query) {
+                    $query->isStudent()
+                    ->where('id', Auth::id());
+                });
+            })
             ->paginate($this->showRow);
+    }
+
+    protected function getFilterDataIfNotStudent()
+    {
+        return Gate::allows('isStudent', User::class)
+            ? []
+            : [
+                'filter_colleges' => $this->getFilterColleges(),
+                'filter_programs' => $this->getFilterPrograms(),
+            ];
     }
 
     public function delete($id)
