@@ -41,6 +41,11 @@ class Request extends Model
         return $this->belongsTo(Program::class, 'program_id', 'id');
     }
 
+    public function files()
+    {
+        return $this->morphMany(File::class, 'fileable');
+    }
+
     # scopes -----------------------------------------------------------
 
     public function scopeSearch($query, $search, $filter = self::SEARCHFILTERS)

@@ -1,9 +1,10 @@
 #!/bin/bash
 echo "*****************************"
 echo "* [1] clear all             *"
-echo "* [2] migrate:fresh --seed  *"
-echo "* [3] del debugbar/*.json   *"
-echo "* [4] artisan serve         *"
+echo "* [2] clear storage disks   *"
+echo "* [3] migrate:fresh --seed  *"
+echo "* [4] del debugbar/*.json   *"
+echo "* [5] artisan serve         *"
 echo "*****************************"
 read -p "Enter choice: " choice
 
@@ -24,14 +25,21 @@ if (( $choice == "1" )); then
     rm -r storage/logs/*.log
 
 elif (( $choice == "2" )); then
+    echo "> deleting app/files ---------------------"
+    rm -r storage/app/files/*
+
+    echo "> deleting app/livewire-tmp --------------"
+    rm -r storage/app/livewire-tmp/*
+
+elif (( $choice == "3" )); then
     echo "> migrate:fresh --seed -------------------"
     php artisan migrate:fresh --seed
 
-elif (( $choice == "3" )); then
+elif (( $choice == "4" )); then
     echo "> rm -r storage/debugbar/*.json ----------"
     rm -r storage/debugbar/*.json
 
-elif (( $choice == "4" )); then
+elif (( $choice == "5" )); then
     echo "> artisan serve --------------------------"
     php artisan serve --host='localhost' --port='8009'
 

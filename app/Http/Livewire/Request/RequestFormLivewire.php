@@ -8,18 +8,29 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class RequestFormLivewire extends Component
 {
     use AuthorizesRequests;
     use AlertTrait;
+    use WithFileUploads;
 
     public $request;
+    public $files = [];
+    public $filesUploaded = [];
+
+    protected $validationAttributes = [
+        'files.*' => 'file',
+        'filesUploaded.*' => 'file',
+    ];
 
     protected function rules()
     {
         return [
             'request.message' => "required",
+            'files.*' => "file|max:2048",
+            'filesUploaded.*' => "file|max:2048",
         ];
     }
 
@@ -46,9 +57,24 @@ class RequestFormLivewire extends Component
         ]);
     }
 
-    public function updated($property)
+    public function updated($property, $value)
     {
         $this->validateOnly($property);
+    }
+
+    public function updatedFiles($value)
+    {
+        $this->resetErrorBag();
+        $this->validateOnly('files.*');
+        $this->filesUploaded = array_merge($value, $this->filesUploaded);
+        $this->files = [];
+    }
+
+    public function deleteFile($key)
+    {
+        $this->resetErrorBag();
+        $this->filesUploaded[$key]->delete();
+        unset($this->filesUploaded[$key]);
     }
 
     public function save()
@@ -70,8 +96,16 @@ class RequestFormLivewire extends Component
         ]);
 
         if ($request->wasRecentlyCreated) {
-            $this->session_flash_alert_info('Success!', 'Request has been successfully added');
+            foreach ($data['filesUploaded'] as $key => $file) {
+                $newfilename = "req-{$request->id}-{$request->user_id}-{$request->created_at->format("Y-m-d\TH-i-s")}-{$key}.{$file->guessExtension()}";
+                $request->files()->create([
+                    'origname' => $file->getClientOriginalName(),
+                    'filename' => $newfilename,
+                ]);
+                $file->storeAs('', $newfilename, 'files');
+            }
 
+            $this->session_flash_alert_info('Success!', 'Request has been successfully added');
             return redirect()->route('request');
         }
     }
