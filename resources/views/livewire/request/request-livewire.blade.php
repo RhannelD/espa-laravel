@@ -66,6 +66,11 @@
                             {{ $request->updated_at->shortRelativeDiffForHumans() }}
                         </td>
                         <td class="text-center py-1">
+                            @can('view', $request)
+                                <a href="{{ route('request.view', ['request' => $request->id]) }}" class="btn btn-sm my-0 btn-primary">
+                                    <i class="bi bi-file-earmark-text-fill"></i>
+                                </a>
+                            @endcan
                             @can('delete', $request)
                                 <button onclick="delete_record({{ $request->id }})" type="button" class="btn btn-sm my-0 btn-danger">
                                     <i class="bi bi-trash-fill"></i>

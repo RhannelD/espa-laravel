@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\File\FileController;
 use App\Http\Livewire\Auth\SigninLivewire;
 use App\Http\Livewire\College\CollegeFormLivewire;
 use App\Http\Livewire\College\CollegeLivewire;
@@ -18,6 +19,7 @@ use App\Http\Livewire\Program\ProgramFormLivewire;
 use App\Http\Livewire\Program\ProgramLivewire;
 use App\Http\Livewire\Request\RequestFormLivewire;
 use App\Http\Livewire\Request\RequestLivewire;
+use App\Http\Livewire\Request\RequestViewLivewire;
 use App\Http\Livewire\Role\RoleLivewire;
 use App\Http\Livewire\Role\RolePermissionLivewire;
 use App\Http\Livewire\Student\Curriculum\StudentCurriculumFormLivewire;
@@ -65,9 +67,15 @@ Route::middleware(['user'])->group(function () {
 
     Route::get('/course/form/{course_id?}', CourseFormLivewire::class)->name('course.form');
 
-    Route::get('/request', RequestLivewire::class)->name('request');
+    Route::prefix('/request')->group(function () {
 
-    Route::get('/request/form', RequestFormLivewire::class)->name('request.form');
+        Route::get('/', RequestLivewire::class)->name('request');
+
+        Route::get('/form', RequestFormLivewire::class)->name('request.form');
+
+        Route::get('/{request}', RequestViewLivewire::class)->name('request.view');
+
+    });
 
     Route::prefix('/student')->group(function () {
 
@@ -116,6 +124,14 @@ Route::middleware(['user'])->group(function () {
         Route::get('/role', RoleLivewire::class)->name('role');
 
         Route::get('/role/{role}/permission', RolePermissionLivewire::class)->name('role.permission');
+
+    });
+
+    Route::prefix('/file')->group(function () {
+
+        Route::get('/{file}', [FileController::class, 'show'])->name('file');
+
+        Route::get('/{file}/download', [FileController::class, 'download'])->name('file.download');
 
     });
 
