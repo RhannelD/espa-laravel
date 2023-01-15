@@ -57,6 +57,30 @@ class RequestPolicy
     }
 
     /**
+     * Determine whether the user can response the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function response(User $user, Request $request)
+    {
+        return $user->hasPermissionTo('Request Response') ? true : null;
+    }
+
+    /**
+     * Determine whether the user can comment on the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Request  $request
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function comment(User $user, Request $request)
+    {
+        return $user->id == $request->user_id ? true : ($user->hasPermissionTo('Request Response') ? true : null);
+    }
+
+    /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user

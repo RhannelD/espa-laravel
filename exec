@@ -1,12 +1,16 @@
 #!/bin/bash
-echo "*****************************"
-echo "* [1] clear all             *"
-echo "* [2] clear storage disks   *"
-echo "* [3] migrate:fresh --seed  *"
-echo "* [4] del debugbar/*.json   *"
-echo "* [5] artisan serve         *"
-echo "*****************************"
-read -p "Enter choice: " choice
+choice=${1:-0}
+
+if ((choice == 0)); then
+    echo "*****************************"
+    echo "* [1] clear all             *"
+    echo "* [2] clear storage disks   *"
+    echo "* [3] migrate:fresh --seed  *"
+    echo "* [4] del debugbar/*.json   *"
+    echo "* [5] artisan serve         *"
+    echo "*****************************"
+    read -p "Enter choice: " choice
+fi
 
 if (( $choice == "1" )); then
     echo "> artisan cache:clear --------------------"

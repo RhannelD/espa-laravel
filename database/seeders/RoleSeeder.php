@@ -127,6 +127,7 @@ class RoleSeeder extends Seeder
                 'Request Create',
                 'Request Update',
                 'Request Delete',
+                'Request Response',
             ],
             'Role' => [
                 'Role List',
