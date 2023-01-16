@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Request;
 
 use App\Models\Comment;
 use App\Models\Request;
+use Illuminate\Support\Facades\Gate;
 use Livewire\Component;
 
 class RequestViewCommentLivewire extends Component
@@ -50,5 +51,13 @@ class RequestViewCommentLivewire extends Component
     public function newComment()
     {
         $this->show_row += 1;
+    }
+
+    public function deleteComment($comment_id)
+    {
+        $comment = Comment::find($comment_id);
+        if (Gate::allows('delete', $comment) && $comment->delete()) {
+            $this->show_row = $this->show_row <= 4 ? 4 : ($this->show_row - 1);
+        }
     }
 }
