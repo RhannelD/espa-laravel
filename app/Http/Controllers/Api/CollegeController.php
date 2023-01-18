@@ -63,7 +63,7 @@ class CollegeController extends Controller
     {
         $college->update($request->validated());
 
-        return new RoleResource($college);
+        return new CollegeResource($college);
     }
 
     /**
