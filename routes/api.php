@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CollegeController;
+use App\Http\Controllers\Api\Form\SelectController;
 use App\Http\Controllers\Api\ProgramController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,5 +28,13 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/college', CollegeController::class);
 
     Route::apiResource('/program', ProgramController::class);
+
+    Route::prefix('/form')->group(function () {
+
+        Route::get('/college', [SelectController::class, 'college']);
+
+        Route::get('/program', [SelectController::class, 'program']);
+
+    });
 
 });
