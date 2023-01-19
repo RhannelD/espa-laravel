@@ -7,6 +7,7 @@ use App\Http\Requests\CollegeRequest;
 use App\Http\Resources\CollegeResource;
 use App\Models\College;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CollegeController extends Controller
 {
@@ -23,7 +24,9 @@ class CollegeController extends Controller
             ->search(request()->search)
             ->paginate(request()->row ?? 10);
 
-        return CollegeResource::collection($colleges);
+        return CollegeResource::collection($colleges)->additional([
+            'can_create' => Gate::allows('create', College::class),
+        ]);
     }
 
     /**

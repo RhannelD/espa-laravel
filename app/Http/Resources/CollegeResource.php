@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Gate;
 
 class CollegeResource extends JsonResource
 {
@@ -19,6 +20,9 @@ class CollegeResource extends JsonResource
             'id',
             'college',
             'abbreviation',
-        ]);
+        ]) + [
+            'can_delete' => Gate::allows('delete', $this->resource),
+            'can_update' => Gate::allows('update', $this->resource),
+        ];
     }
 }
