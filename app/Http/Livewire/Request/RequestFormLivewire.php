@@ -96,7 +96,7 @@ class RequestFormLivewire extends Component
         ]);
 
         if ($request->wasRecentlyCreated) {
-            foreach ($data['filesUploaded'] as $key => $file) {
+            foreach ($data['filesUploaded'] ?? [] as $key => $file) {
                 $newfilename = "req-{$request->id}-{$request->user_id}-{$request->created_at->format("Y-m-d\TH-i-s")}-{$key}.{$file->guessExtension()}";
                 $request->files()->create([
                     'origname' => $file->getClientOriginalName(),
