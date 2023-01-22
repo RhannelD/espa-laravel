@@ -11,6 +11,7 @@ use App\Http\Livewire\Curriculum\CurriculumFormLivewire;
 use App\Http\Livewire\Curriculum\CurriculumLivewire;
 use App\Http\Livewire\Curriculum\Form\CurriculumCourseLivewire as CurriculumCourseFormLivewire;
 use App\Http\Livewire\Dashboard\DashboardLivewire;
+use App\Http\Livewire\Evaluate\EvaluateLivewire;
 use App\Http\Livewire\Officer\OfficerFormLivewire;
 use App\Http\Livewire\Officer\OfficerLivewire;
 use App\Http\Livewire\Officer\OfficerRolePermissionLivewire;
@@ -90,6 +91,8 @@ Route::middleware(['user'])->group(function () {
             Route::get('/view', StudentCurriculumLivewire::class)->name('student.curriculum');
 
             Route::get('/grade/form', StudentCurriculumGradeLivewire::class)->name('student.curriculum.grade');
+
+            Route::get('/evaluate', EvaluateLivewire::class)->name('student.evaluate');
 
         });
 

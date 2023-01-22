@@ -22,6 +22,12 @@
             <i class="bi bi-backspace"></i>
             Back
         </a>
+        @can('evaluateStudent', $user)
+            <a href="{{ route('student.evaluate', ['user'=>$user_id]) }}" class="btn btn-primary">
+                <i class="bi bi-ui-checks"></i>
+                Evaluate
+            </a>
+        @endcan
         @can('updateStudentCurriculum', $user)
             <a href="{{ route('student.curriculum.form', ['user'=>$user_id]) }}" class="btn btn-primary">
                 <i class="bi bi-pen-fill"></i>

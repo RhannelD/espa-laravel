@@ -1,4 +1,4 @@
-<div class="card">
+<div {{ $attributes->class(['card']) }}>
     <div class="card-body pt-4">
         {{ $slot }}
     </div>

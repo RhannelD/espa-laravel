@@ -150,6 +150,18 @@ class UserPolicy
         return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student Grade Delete') ? true : null);
     }
 
+    /**
+     * Determine whether the user can evaluate the student.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function evaluateStudent(User $user, User $model)
+    {
+        return $user->hasPermissionTo('Student Evaluate') ? true : null;
+    }
+
     // ----------------------------------------------------------------------------------
 
     /**

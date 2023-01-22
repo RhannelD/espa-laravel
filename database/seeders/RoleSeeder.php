@@ -120,6 +120,7 @@ class RoleSeeder extends Seeder
                 'Student Curriculum Update',
                 'Student Grade Update',
                 'Student Grade Delete',
+                'Student Evaluate',
             ],
             'Request' => [
                 'Request List',
