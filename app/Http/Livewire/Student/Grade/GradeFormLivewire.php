@@ -70,6 +70,7 @@ class GradeFormLivewire extends Component
         ]);
 
         if ($grade->wasRecentlyCreated) {
+            $this->grade = new Grade;
             $this->alert_success('Graded Successfully');
             $this->emitUp('refresh');
         }

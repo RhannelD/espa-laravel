@@ -24,6 +24,21 @@
             <i class="bi bi-backspace"></i>
             Back
         </a>
+        <button onclick="swal({
+                title: 'Add Grade',
+                text: '',
+                icon: 'warning',
+                buttons: true,
+                dangerMode: false,
+                buttons: ['Cancel', 'Save'],
+            }).then((agree) => {
+                if (agree) {
+                    @this.emit('save_all');
+                }
+            })"
+            class="btn btn-success" type="button">
+            Save All
+        </button>
     </div>
     <hr>
 

@@ -1,4 +1,11 @@
-<tr>
+<tr x-data
+    x-init="() => {
+        window.livewire.on('save_all', () => {
+            if($wire.grade.grade) {
+                $wire.save();
+            }
+        });
+    }">
     <td scope="row" class="py-1">
         <select wire:model="grade.grade" class="form-select">
             <option value="" selected>Select</option>
