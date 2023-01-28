@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CollegeController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\Form\SelectController;
+use App\Http\Controllers\Api\OfficerController;
 use App\Http\Controllers\Api\ProgramController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/program', ProgramController::class);
 
     Route::apiResource('/course', CourseController::class);
+
+    Route::apiResource('/officer', OfficerController::class);
 
     Route::prefix('/form')->group(function () {
 
