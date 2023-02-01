@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\Form\SelectController;
 use App\Http\Controllers\Api\OfficerController;
 use App\Http\Controllers\Api\ProgramController;
+use App\Http\Controllers\Api\StudentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -34,6 +35,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('/course', CourseController::class);
 
     Route::apiResource('/officer', OfficerController::class);
+
+    Route::apiResource('/student', StudentController::class);
 
     Route::prefix('/form')->group(function () {
 

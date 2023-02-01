@@ -37,6 +37,6 @@ class SrCodeRule implements Rule
      */
     public function message()
     {
-        return 'The :attribute must be a valida SR-Code [00-00000].';
+        return 'The :attribute must be a valid SR-Code [00-00000].';
     }
 }

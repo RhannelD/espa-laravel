@@ -40,7 +40,7 @@ class UserPolicy
      */
     public function viewStudent(User $user, User $model)
     {
-        return $user->hasPermissionTo('Student View') ? true : null;
+        return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student View') ? true : null);
     }
 
     /**
@@ -99,7 +99,7 @@ class UserPolicy
      */
     public function deleteStudent(User $user, User $model)
     {
-        return $user->hasPermissionTo('Student Delete') ? true : null;
+        return (!$model->isStudent) ? false : ($user->hasPermissionTo('Student Delete') ? true : null);
     }
 
     /**
